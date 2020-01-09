@@ -1,0 +1,197 @@
+Garbage collection:
+
+	System
+	Runtime
+
+	null pointer
+
+
+
+
+can we make constructor as final
+can we make constructor as private
+
+make the below code snippet to work without removing the existing code
+
+class A{
+	int a=90;
+}
+
+class B extends A{
+	private int b=100;
+	//getter
+	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		B ob=new B();
+		System.out.println(a+ob.getB());				
+	}
+}
+
+======================================================================
+
+qn 2:
+
+class A{
+	public void method()
+	{
+		System.out.println("hi");
+	}
+}
+
+class B extends A{
+	private void method()
+	{
+		System.out.println("hello");
+	}	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		new A().method();
+		new B().method();
+	}
+}
+====================================================================
+
+class A{
+	public void method()
+	{
+		System.ou.println("hi");
+	}
+}
+
+class B {
+	private void method()	//modify to public
+	{
+		System.ou.println("hello");
+	}	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		new A().method();
+		new B().method(); //if no method() is in class B what will happen
+	}
+}
+============================================================
+class A{
+	public void method()
+	{
+		System.out.println("hi");
+	}
+}
+
+class B extends A{
+	private void method(int 1)	//make it as public
+	{
+		System.ou.println("hello");
+	}	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		new B().method();
+	}
+}
+
+=========================================================================
+class A{
+	public void method()
+	{
+		System.out.println("hi");
+	}
+}
+
+class B extends A{
+	public final void method()
+	{
+		System.out.println("hello");
+	}	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		new B().method();
+	}
+}
+
+===============================================================
+class A{
+	public void method()
+	{
+		System.out.println("hi");
+	}
+}
+
+final class B extends A{
+	public void method()
+	{
+		System.out.println("hello");
+	}	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		new B().method();
+	}
+}
+==========================================================
+
+class A{
+	public String method()
+	{
+	 	return "hi";
+	}
+}
+
+class B extends A{
+	public void method()
+	{
+		System.out.println("hello");
+	}	
+}
+
+class Test{
+
+	public static void main(String ar[])
+	{
+		new B().method();
+	}
+}
+
+
+public String toString()
+{
+	return getClass().getName()+"@"+Integer.toHexString(hashCode());
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
