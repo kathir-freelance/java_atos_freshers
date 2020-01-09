@@ -1,0 +1,51 @@
+package com.cts.polymorphism;
+
+import java.util.Scanner;
+
+public class ScannerExample {
+
+	public static void main(String[] args) {
+	
+	//	Scanner scanner=new Scanner(System.in);
+		/*System.out.println("please enter your name: ");
+		String name=scanner.nextLine();
+		System.out.println(name);*/
+		/*
+		System.out.println("please enter your name: ");
+		String name=scanner.next();
+		System.out.println(name);*/
+		//Scanner scanner=new Scanner(System.in).useDelimiter("-");
+		/*Scanner scanner=new Scanner(System.in);
+		scanner.useDelimiter("-");
+		//default delimiter was space
+		System.out.println("please enter your name: ");
+		String name=scanner.next();
+		System.out.println(name);*/
+		
+	/*	Scanner scanner=new Scanner(System.in);
+		System.out.println("please enter your name: ");
+		String name=scanner.nextLine();
+		System.out.println("please enter your id: ");
+		int id=scanner.nextInt();
+		System.out.println("please enter your salary: ");
+		float salary=scanner.nextFloat();
+		System.out.println(name+" "+id+" "+salary);
+	*/
+	/*
+	String data=new Scanner(System.in).nextLine();
+	Scanner scanner=new Scanner(data).useDelimiter("-");
+	while(scanner.hasNext()){
+		System.out.println(scanner.next());
+	}*/
+	
+		
+		Scanner scanner=new Scanner("mon-tue-wed-thur-fri").useDelimiter("-");
+		while(scanner.hasNext()){
+			System.out.println(scanner.next());
+		}	
+		
+		
+		
+	}
+
+}
