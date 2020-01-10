@@ -1,0 +1,939 @@
+2:34 PM 7/22/2019
+
+Java
+
+1.	Lesson 1: Introduction to Java
+	
+	a.	Introduction to Java	
+	b.	Features of Java	
+	c.	Evolution in Java
+	d.	Understanding JVM in detail
+		i.	Class loader
+		ii.	Execution Engine
+		iii.	Garbage Collection
+		iv.	Byte Code verifier
+	e.	Developing software in Java
+
+2.	Lesson 2: Eclipse3.7 as an IDE
+	
+		a.	Installation and Setting up Eclipse
+		b.	Introduction to Eclipse IDE 
+		c.	Creating and Managing Java Projects
+3.	Lesson 3: Language Fundamentals
+		a.	Language Fundamentals
+		b.	Data Types		
+		c.	Variables	
+		d.	Methods and Parameter Passing	
+		e.	Method with Variable Argument Lists	
+		f.	Keywords
+		g.	Operators and Assignments		
+		h.	Flow Control: Java’s Control Statements 
+		i.	 Objects and Classes		
+		j.	 Arrays
+
+
+JDK
+JRE
+
+JVM
+
+JVM Architecture
+  
+  Class loader
+
+	loads the classes into jvm
+
+  Byte code verifier
+
+	1. Variables are initialized before they are used.
+	2. Method calls match the types of object references.
+	3. Rules for accessing private data and methods are not violated.
+	4. Local variable accesses fall within the runtime stack.
+	5. The runtime stack does not overflow.
+	
+If any of these checks fails, then the class is considered corrupted and will not 
+be loaded.
+
+
+naming convention:
+
+
+keyword- lower case
+class - first char should be in upper case
+
+	class Employee
+	class EmplDetails
+
+method, variables - lowercase or camelcase
+	
+	int employeeId;
+	int salary;
+
+	getData()
+	change()
+
+Constant variable - fully upper case
+
+	final float PI=3.14f;
+	final int NOOFDAYS=31;
+
+
+
+OOPS:
+
+	class and Objects
+	Encapsulation
+	Abstraction
+	inheritance- reusability
+	polymorphism - var,method,obj
+
+class ->
+	collection of objects
+	collection of common property & behaviour
+	blueprint
+
+Object->
+	attributes
+	instance(example) of a class	
+
+	identity - unique (hashcode())
+	behaviour-  purchase(),deleteBooks(),addBooks()
+	state (attributes) - no pages, author name,edition, publisher, availability,qty
+
+class Human{
+
+int eyes;
+int hands
+int legs
+
+void play()
+void listen()
+void think()
+
+}
+
+
+abstraction, enscapsulation
+
+
+encapsulation:
+
+
+
+class 
+
+
+variable:
+
+	datatype var=initialization;	
+
+datatype:
+
+	String - class
+
+
+	type of data
+
+	numbers-
+		byte- 1 byte- (-128 to 127)
+		short - 2 by - (-32726 to 32425) 
+		int - 4by
+		long - 8by  -  suffixed by L or l
+	charac -  2 by
+	dec - floating point
+		double - 8 by
+		float -  4 by - suffixed by 'f' or 'F'
+	
+	yes or no - boolean
+
+
+	
+
+	
+11:42 AM 7/23/2019
+===================
+
+Global variable-
+
+	static or class variable or member
+	non static or instance variable - 
+
+	it has to be declared inside the class outside the method
+	
+	class Student
+	{
+	static int a;
+	float b; 
+	}
+	
+	global variables will have default value depending on their datatype
+
+Constructor:
+
+	1. same name as class name
+	2. no return type (do not give void)
+	3. Used to initialize the object(default value for  var)
+	4. every program has a default constructor created by compiler  only if
+		there no construor at all, if u have arg constr then compiler will not 
+		create it.
+	5. super() - invoke base class construtor;	
+
+	
+cmd>>javap classname
+
+Compiled from "TreeEg.java"
+class TreeEg {
+  TreeEg();
+  public static void main(java.lang.String[]);
+}
+
+
+
+	
+
+
+
+
+
+
+
+encapsulation
+
+
+Monolithic services
+https://whatis.techtarget.com/definition/monolithic-architecture
+
+Layered architecture
+https://medium.com/code-smells/layered-architecture-f11bc04c5d6c
+
+
+Pojo vs Bean vs VO vs DTO vs DAO 
+https://stackoverflow.com/questions/1612334/difference-between-dto-vo-pojo-javabeans
+
+how to achieve Singleton-
+
+constructors 
+
+methods
+
+message passing:
+https://www.geeksforgeeks.org/message-passing-in-java/
+
+inheritance:
+https://medium.com/java-for-absolute-dummies/inheritance-in-java-programming-39176e0016f3
+
+
+k.	 Declaring Type Safe Enums
+l.	 OOPS Features in Java
+m.	 Other Modifiers		
+n.	 Nested Classes		
+o.	 The Object Class		
+p.	The System Class
+q.	String Handling		
+r.	Wrapper Classes		
+s.	Simple formatted I/O and Scanner
+4.	Lesson 4: Packages and Interfaces
+a.	What is an Interface?
+b.	 Packages			
+c.	 Access Specifiers and Modifiers
+d.	Abstract classes and Why abstract classes.
+
+
+
+11:51 AM 7/24/2019
+
+Monolithic Services
+
+
+
+Layered Architecture - distributed(n tier arch)
+
+s1 - UI
+s2- business logic - admin
+s6- business logic - employee
+s5 -validation
+s3 - db logic
+s4 -db(mysql)
+
+dependency
+
+com.ct.ecommerce.ui - jar
+com.ct.ecommerce.service (business logic+validation)
+com.ct.ecommerce.dao (db logic)
+com.ct.ecommerce.dto(bean or java)   
+com.ct.ecommerce.exception- user defined exception
+com.ct.ecommerce.util(db connection)
+   
+
+
+
+
+System.out.println---to use ---> java.lang.*;
+
+Util pkg
+import java.util.Scanner;
+
+Scanner
+
+valid ip address - 4 division, each div should range between 0-255
+
+String :
+
+object created are immutable( cannot be changed)
+
+final class
+final static var
+remove setter 
+only by using constructors (so its assigned only once)
+
+
+String s="hello";
+String s1=new String("hello");// heap
+
+
+case 2:
+
+String s1="hello";//scp
+String s2="hello"; 
+
+only one 
+
+
+System, packages
+
+Polymorphism:
+
+var
+method
+constructor
+obj 
+GARBAGE COLLECTOR:
+https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html?source=post_page
+
+Interface & Abstract classes
+=============================================================================
+Collection
+
+	CRUD application
+	//task - add l to list1
+	//list<String> list1
+	//list l;//contains boolean,char & float objects
+	
+	//List<Object> list1
+	//List<List<>> list1 //not allowed
+	//List<List> list1
+	//List<List<Object>> list1
+
+	//task 2
+	create a list as shown below
+	
+	List list1=Arrays.asList("alpha","alpha");
+	create a iterator for it
+	add data into it using add()
+	traverse thru itusing hasNext and next method and print it
+
+	//task 3
+	create a list as shown below
+	
+	List list1=Arrays.asList("alpha","alpha");
+	add data using add()
+	create a iterator for it
+	traverse thru itusing hasNext and next method and print it
+
+
+Map:
+
+	collection of multiple key value pair
+	Map.Entry
+	keySet
+	values
+	entrySet
+
+Exception
+
+//use of try with resources from JAVA7 - eliminates finally blocks
+	//arg passed to try should be Autocloseable resources or closeable
+	//resources will be opened in same order but will be cloased in reverse order
+	//resources are nothing but normal class objects which ll implement autocloaseable interface
+	//they get close method by the help of this interface
+
+Custom Exception
+
+
+
+Properties 
+public class java.util.Properties extends java.util.Hashtable<java.lang.Object, java.lang.Object> {
+
+key value pairs
+
+
+System class - 
+  public static java.util.Properties getProperties();
+  public static void setProperties(java.util.Properties);
+  public static java.lang.String getProperty(java.lang.String);
+  public static java.lang.String getProperty(java.lang.String, java.lang.String);
+  public static java.lang.String setProperty(java.lang.String, java.lang.String);
+  public static java.lang.String clearProperty(java.lang.String);
+
+java.io -> throw IOException - checked -must handled by developer
+
+IO - Input(Read) & Output(write) - utilise system resources
+
+System.in	- 
+System.out
+System.err
+
+public final class java.lang.System {
+  public static final java.io.InputStream in;
+  public static final java.io.PrintStream out;
+  public static final java.io.PrintStream err;
+}
+
+in - > InputStream
+out,err ->PrintStream
+
+
+Streams - moving of data(in bytes)
+	1. Byte - Image,media,java obj,doc
+
+		Input - InputStream
+		Output- OutputStream
+
+	2. Character
+		Input - Reader
+		Output- Writer
+
+File- 
+Files-
+
+NIO pkg
+
+FileSystem, Path -> interfaces
+FileSystems,Paths -> classes
+
+FileStore
+FilePersmisson
+
+Serialization :
+11:10 PM 8/01/2019 - day 9
+
+
+Serialization :
+
+This is a part of persistance
+
+Persistance - Process of outlive data(may be in DB or any sec storage). 
+	      Making the data to be permenently available as jvm cant
+	      hold objects all the time
+		
+
+process of converting a object into byte - Serialization
+
+process of converting back byte into an object - Deserialization
+
+for above process we make use of java.io.Serializable
+
+empty interface - no methods - marker interface
+
+
+class and interface used for these processes are 
+
+Serialization:
+===============
+ObjectOutputStream(writeObject())
+FileOutputStream(knows the loc of file to write)
+
+DeSerialization:
+=================
+ObjectInputStream(readObject())
+FileInputStream(knows the loc of file to read)
+
+similiarly ,
+
+process of converting a object into XML - Marshalling
+
+process of converting back XML into an object - UnMarshalling
+
+JaxB is used here
+
+JDBC - api - helps to connect with Db
+	Java db connectivity API 
+java - DB(qry)
+
+Driver - 4
+
+ 	
+type1 - c --- Jdbc-Odbc driver
+
+type2 - c ,c++ - native driver
+
+type3 - java - network protocol driver
+
+type4  - java - pure java driver
+
+DriverManager
+
+
+JDBC 4.0 -
+
+loading & registering the driver is optional
+
+steps to connect with DB
+
+	1. load/register driver(optional)
+	2. establish connection - (un,pwd,url,driver)
+	3. create a statement ( to place qry)
+	4. execute the query
+	5. close the connection
+	
+Handle SQLException in the program(wrapper exception) 
+if u use class.forName() - throws classNotFoundExcetion
+
+DriverManager
+Connection
+Statement/PreparedStatement/Callable
+ResultSet,RowSet
+
+DML - executeUpdate -int 
+
+insert - 1 row - int
+update
+delete
+merge
+
+DDL:- boolean - execute()
+Create table 
+Drop
+Truncate
+Alter
+Comment
+Rename
+
+QL : executeQuery() -ResultSet
+select - 
+
+Batch
+5 insert -  5 row - int [] - batch
+
+
+Class.forName("com.mysql.jdbc.Driver");  
+Connection con=DriverManager.getConnection(  
+"jdbc:mysql://localhost:3306/mydb","root","root");  
+
+
+
+phase 2:
+
+implement hashmap instead of arraylist 
+
+store mobId as key and obj as value 
+
+
+phase 3:
+
+implement custom exception
+
+phase 4:
+
+remove collection and replace jdbc forimplementing CRUD operation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11:00 PM 8/02/2019 - day 10
+
+Jdbc
+
+Logger
+
+11:00 PM 8/02/2019 - day 11
+
+Threading & project
+
+
+
+
+
+
+
+
+
+
+String un =admin
+String pwd=
+
+
+	if(un.equals("admin")&&(pwd.equals("admin"))
+
+CPU= 
+	JVM - Heap /Stack(temp) --- 
+Garbage Collector: 
+
+	System.gc();
+	Runtime.getRuntime().gc();
+
+inside Object class 
+finalize(){
+}
+
+
+reference points =null
+
+Type Erasure
+
+javap -c file name
+ 
+https://javapapers.com/core-java/type-erasure/
+
+//String s=null;
+String s=new String();
+sysout(s);//ref //npe
+sysout(s.length());//npe
+sysout(s.size());//size of string 
+=================
+String s=new String();
+sysout(s.length());
+
+-----------------------------
+String s1="";
+sysout(s1.length());
+-----------------------------
+String s1=null;
+String s2=(String)s1;
+sysout(s2)
+-----------------------------
+
+
+
+
+why this is it throws Null pointer exception in the below code?
+	
+	Console c=System.console();//
+	System.out.println(new String(c.readPassword("password")));
+	
+use of consoleObj.writer(); ?
+
+
+LocalDate locald = LocalDate.of(1967, 06, 22);
+Date date = Date.valueOf(locald); 
+r.setDateOfBirth(date);
+
+Date date = r.getDate();
+LocalDate localD = date.toLocalDate();
+
+
+LocalDateTime ldt = LocalDateTime.now();
+System.out.println(DateTimeFormatter.ofPattern("MM-dd-yyyy", Locale.ENGLISH).format(ldt));
+System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt));
+System.out.println(ldt);
+
+util.Date myDate = new Date();
+System.out.println(myDate);
+System.out.println(new SimpleDateFormat("MM-dd-yyyy").format(myDate));
+System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(myDate));
+System.out.println(myDate);
+
+
+11:40 AM 8/5/2019
+MultiThreading
+
+
+Thread - parts of process
+Process - running appln
+ 
+life cycle of a thread
+scheduling
+
+
+Process
+========
+Each process provides the resources needed to execute a program. 
+A process has a virtual address space, executable code, open handles to system 
+objects, a security context, a unique process identifier, environment variables, 
+a priority class, minimum and maximum working set sizes, and at least one thread 
+of execution.
+
+Each process is started with a single thread, often called the 
+primary thread, but can create additional threads from any of its threads.
+
+Thread
+=======
+A thread is an entity within a process that can be scheduled for execution. 
+
+All threads of a process share its virtual address space and system resources.
+
+In addition, each thread maintains exception handlers, a scheduling priority, 
+thread local storage, a unique thread identifier, and a set of structures the 
+system will use to save the thread context until it is scheduled.
+
+The thread context includes the thread's set of machine registers, the kernel 
+stack, a thread environment block, and a user stack in the address space of the 
+thread's process. 
+Threads can also have their own security context, which can be
+used for impersonating clients.
+
+
+implements Runnable - run()
+
+define the task for thread
+
+class B extends Thread
+{
+public void run(){//define}
+}
+
+B tt1=new B();
+B tt2=new B();
+
+class A implements Runnable
+{
+	override run(){ //task}
+}
+
+A ob=new A();
+
+Thread t1=new Thread(ob);
+Thread t2=new Thread(ob);
+t.setName("Type");
+t.getId();
+t.isAlive();
+t.start();
+//yield join sleep
+//wait , notify, notifyAll - object - inside synchronized block
+
+
+log4j
+
+Apache logger
+util.Logger - basic functionalities
+
+log4j.jar(1.2) to be downloaded and added to build path
+
+What is logger?
+reliable, fast and flexible logging framework (APIs) 
+
+why?
+If developers are working on a Server side application, where they cannot see 
+what’s going on inside the server, then their only visibility tool is a log file.
+
+It is thread-safe.
+It is optimized for speed.
+It supports multiple output appenders per logger.
+Logging behavior can be set at runtime using a configuration file.
+It is designed to handle Java Exceptions from the start.
+
+When to use it?
+
+offers quick debugging, easy maintenance, and structured storage of an application's
+runtime information.
+
+Log4j.properties
+
+The log4j.properties file is a log4j configuration file which keeps properties in
+key-value pairs.
+
+What to do in logger configuration:
+1.logger -DEBUG,Information,Warning,Error,Fatal,ALL,OFF
+2.appender- who can write something to repo. (REPO)->file,xml,db...)
+3.layout - format
+
+The level of the root logger is defined as DEBUG. The DEBUG attaches the appender named X to it.
+
+Set the appender named X to be a valid appender.
+
+Set the layout for the appender X.
+
+# Define the root logger with appender X
+log4j.rootLogger = DEBUG, X
+
+# Set the appender named X to be a File appender
+//log4j.appender.X=org.apache.log4j.FileAppender
+log4j.appender.FILE.File=${log}/log.out
+
+# Define the layout for X appender
+log4j.appender.X.layout=org.apache.log4j.PatternLayout
+log4j.appender.X.layout.conversionPattern=%m%n
+
+
+
+
+Debug Level
+We have used DEBUG with both the appenders. All the possible options are:
+
+TRACE
+DEBUG
+INFO
+WARN
+ERROR
+FATAL
+ALL
+OFF
+
+There are two types of objects available with log4j framework.
+
+Core Objects: These are mandatory objects of the framework. 
+They are required to use the framework.
+
+Support Objects: These are optional objects of the framework.
+They support core objects to perform additional but important tasks.
+
+CORE OBJECTS are like 
+	
+	1. Logger
+	2. Layout
+	3. Appender
+	
+Support Objects 
+
+	1. level
+	2. filter
+	3. Object Renderer
+	4. Log Manager
+
+
+Appenders:
+printing logging messages to different destinations such as consoles, files, sockets, NT event logs, etc.
+
+layout,target,level,threshold,filter
+
+Types of appender:
+
+ConsoleAppender
+DailyRollingFileAppender
+FileAppender
+JDBCAppender
+SocketAppender
+
+Layout :
+
+DateLayout , SimpleLayout
+HTMLLayout
+PatternLayout
+XMLLayout
+
+
+
+To use rolling daily file appender
+
+log4j.appender.Appender2=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.Appender2.File=sample.log
+log4j.appender.Appender2.DatePattern='.'yyyy-MM-dd
+log4j.appender.Appender2.layout=org.apache.log4j.PatternLayout
+log4j.appender.Appender2.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n
+
+
+
+Minutely -->'.'yyyy-MM-dd-HH-mm
+
+eg : app.log.2012-11-04-21-54
+
+Hourly -->'.'yyyy-MM-dd-HH
+
+eg: app.log.2012-11-04-22
+
+Half-daily --> '.'yyyy-MM-dd-a
+
+eg: app.log.2012-11-04-AM
+
+eg: app.log.2012-11-04-PM
+
+Daily --> '.'yyyy-MM-dd
+
+eg: app.log.2012-11-04
+
+Weekly --> '.'yyyy-ww
+
+eg: app.log.2012-45
+
+eg: app.log.2012-46
+
+Monthly -->'.'yyyy-MM
+
+eg: app.log.2012-10
+
+eg: app.log.2012-11
+
+For html log:
+==============
+# Define the root logger with file appender
+log4j.rootLogger = DEBUG, HTML
+
+# Define the file appender
+log4j.appender.HTML=org.apache.log4j.FileAppender
+log4j.appender.HTML.File=application.html
+
+# Define the html layout for file appender
+log4j.appender.HTML.layout=org.apache.log4j.HTMLLayout
+log4j.appender.HTML.layout.Title=Application logs
+log4j.appender.HTML.layout.LocationInfo=true
+log4j.appender.HTML.Threshold=DEBUG
+
+
+using xml layout
+================
+# Define the root logger with file appender
+log4j.rootLogger = DEBUG, XML
+
+# Define the file appender
+log4j.appender.XML=org.apache.log4j.FileAppender
+log4j.appender.XML.File=application.xml
+
+# Define the xml layout for file appender
+log4j.appender.XML.layout=org.apache.log4j.xml.XMLLayout
+log4j.appender.XML.layout.LocationInfo=true
+log4j.appender.XML.Threshold=DEBUG
+
+Using console appender:
+==========================
+
+log4j.rootCategory=debug,console
+log4j.logger.com.demo.package=debug,console
+log4j.additivity.com.demo.package=false
+  
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.target=System.out
+log4j.appender.console.immediateFlush=true
+log4j.appender.console.encoding=UTF-8
+#log4j.appender.console.threshold=warn
+  
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.conversionPattern=%d [%t] %-5p %c - %m%n
+
+
+Attributes:
+============
+immediateFlush	To set if console stream being flushed with each logging output request.
+encoding	Over-ride the default character-encoding scheme.
+threshold	Any logging request with a level below the threshold will be ignored.
+target	Either System.out or System.err. The default is System.out.  
+
+un
+pwd
+
+if(un )
+{
+	if(role)
+	{
+	if(grade)
+
+	for()	
+	
+}
