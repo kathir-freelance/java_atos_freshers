@@ -1,0 +1,68 @@
+date in ISO format (yyyy-MM-dd) without time.
+
+LocalDate localDate = LocalDate.now();
+LocalDate.of(2015, 02, 20);
+LocalDate.parse("2016-06-12")
+
+
+LocalDate previousMonthSameDay = LocalDate.now().minus(1, ChronoUnit.MONTHS);
+
+
+what does the below code do?
+LocalDateTime beginningOfDay = LocalDate.parse("2016-06-12").atStartOfDay();
+LocalDate firstDayOfMonth = LocalDate.parse("2016-06-12")
+  .with(TemporalAdjusters.firstDayOfMonth());
+
+
+Local Time
+
+LocalTime now = LocalTime.now();
+
+LocalTime.parse("3:00");
+LocalTime.of(3, 10);
+
+same methods as LocalDate
+
+boolean isbefore = LocalTime.parse("06:30").isBefore(LocalTime.parse("07:30"));
+
+ LocalDateTime:
+similiar to other LocalDate
+
+LocalDateTime.of(2015, Month.FEBRUARY, 20, 06, 30);
+localDateTime.plusDays(1);
+localDateTime.minusHours(2);
+
+
+Period
+The Period class is widely used to modify values of given a date or to obtain the difference between two dates
+Instant:
+
+Java 8 has added the toInstant() method which helps to convert existing Date and Calendar instance to new Date:
+
+LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+LocalDateTime.ofInstant(calendar.toInstant(), ZoneId.systemDefault());
+
+Formatting:
+
+LocalDateTime localDateTime = LocalDateTime.of(2015, Month.JANUARY, 25, 6, 30);
+String localDateString = localDateTime.format(DateTimeFormatter.ISO_DATE);
+localDateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+
+dd-mm-year
+
+year-m-d
+
+us.properties
+	hello - 
+hin.properties
+	hello = namsate
+
+
+Date formatting- 
+ThreeTen API 
+Joda-Time Library 
+
+
+
+
+
