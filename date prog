@@ -1,0 +1,25 @@
+/*Date today=new Date();
+		System.out.println(today);
+		System.out.println(today.getDate());*/
+		
+		LocalDate date=LocalDate.now();
+		System.out.println(date);
+		date = LocalDate.of(2020,3,30);
+		System.out.println(date);
+		date = LocalDate.of(2020,Month.APRIL,30);
+		System.out.println(date);
+		System.out.println(date.getDayOfMonth());
+		System.out.println(date.getDayOfYear());
+		System.out.println(date.getYear());
+		System.out.println(LocalDate.MIN+"   "+date.MAX);//where shud i use this?
+		
+		date=LocalDate.parse("2016-06-12");
+		//date=LocalDate.now();		
+		System.out.println(date);
+		
+		date = date.minus(1, ChronoUnit.MONTHS).minus(2,ChronoUnit.DAYS);
+		System.out.println(date);
+		
+		boolean isbefore = LocalTime.parse("22:30").isBefore(LocalTime.parse("07:30"));
+		System.out.println(isbefore);
+		
