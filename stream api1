@@ -1,0 +1,65 @@
+package com.cts.excep;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class TestStream {
+
+	public static void main(String[] args) {
+	/*	List<String> l=new ArrayList<>();
+		l.add("hi");l.add("hi");
+		l.add("welcome");l.add("hello");
+		l.add("rise");
+		
+		Stream<String> st=l.stream();
+		//st.forEach(System.out::println);
+		//System.out.println(st.count());
+		//l.clear();
+		st.close();
+		st=l.stream();
+		System.out.println(st.count());
+		String name[]={"aaaa","bbb","gg","yy"};
+		Stream<String> ss=Arrays.stream(name);
+		ss.forEach(System.out::println);
+		
+		Collection coll=l; //upward casting
+		Stream<String> s1=coll.stream();
+		s1.forEach(System.out::println);
+		
+		String name[]={"aaaa","bbb","gg","yy","ii","ooo"};
+		Stream<String> ss=Arrays.stream(name,1,3);
+		ss.forEach(System.out::println);
+		
+		Stream<String> streamGenerated =
+		Stream.generate(() -> "element".substring(2,3)).limit(2);
+		streamGenerated.forEach(System.out::println);
+		
+		Stream<Integer> streamIterated = Stream.iterate(8, n -> n + 2).limit(5);
+		streamIterated.forEach(System.out::println);
+		
+		IntStream intStream = IntStream.range(1, 10);
+		intStream.forEach(System.out::println);
+		IntStream is= IntStream.of(10,20,30,40,10);
+		is.forEach(System.out::println);
+		
+		Stream.of(1,2,3,4,5,5,5).forEach(System.out::println);
+	*/	
+		Stream<Integer> my = Stream.iterate(8, n ->{
+						int h=((n % 2==0)?n-1:n+5);
+					//	System.out.println(h);
+						return h;
+		}).limit(5);
+		
+		my.forEach(System.out::println);
+		
+	}
+
+}
+
+
+
+
+
