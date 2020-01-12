@@ -1,0 +1,70 @@
+package com.cts.excep;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class TestStream3 {
+
+	public static void main(String[] args) {
+		
+		/*TreeSet<String> s=new TreeSet<>();
+		s.add("hi");
+		s.add("hi");
+		s.add("hello");
+		s.add("encapsulation");
+		s.add("polymorphism");
+		
+		Set data=s.stream().collect(Collectors.toSet());
+		System.out.println(data);*/
+		
+		List li=Arrays.asList("hi",1000,10.5f,10.5f,1000,"hello");
+		Object data1=li.stream().collect(Collectors.toList());
+		System.out.println(data1);
+		for(Object o:(List<Object>)data1)
+		{
+			System.out.println(o);
+		}
+		
+		
+//		s.stream().forEach(System.out::println);
+		
+/*		LongStream ls = LongStream.rangeClosed(1, 9);
+		ls.forEach(System.out::println);
+*/		/*Stream<String> streamOfString =
+				  Pattern.compile(", ").splitAsStream("a, b, c");*/
+/*		Can also read from a file
+		Path path = Paths.get("C:\\file.txt");
+		Stream<String> line = Files.lines(path);
+*/
+/*		Stream<String> once =
+				  Stream.of("Arun", "Ajay", "vinoth").skip(2);
+		once.forEach(System.out::println);
+*/		Stream<String> once =
+		  Stream.of("Arun", "Ajay", "vinoth");
+		//Stream<Integer> twice = once.map(str -> str.length());
+		//twice.forEach(System.out::println);
+		once.sorted().forEach(System.out::println);
+		//long size = twice.sorted().count();
+		//System.out.println(size);
+		/*
+		 OptionalInt i= IntStream.range(1, 5).reduce((a, b) -> a + b);
+		 //1,2,3
+		 System.out.println(i);
+		 System.out.println(i.getAsInt());
+		 
+		 int i1=IntStream.range(1, 5).reduce(10, (a, b) -> a + b);
+		 System.out.println(i1);*/
+		 
+		 
+	}
+
+}
+
+
+
+
+
