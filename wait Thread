@@ -1,0 +1,53 @@
+package javaDay7;
+public class TestThread3 {
+	public static void main(String[] args) {	
+	
+		ThreadWait obj2=new ThreadWait();
+		Thread waitThread=new Thread(obj2);
+		waitThread.setName("wait");
+		Thread notThread=new Thread(obj2);
+		notThread.setName("notify");
+		waitThread.start();
+		
+		
+		
+		/*ThreadNotify obj1=new ThreadNotify();
+		Thread notThread=new Thread(obj1);
+		notThread.start();*/
+	
+		
+		
+	}
+
+}
+
+
+
+
+package javaDay7;
+
+public class ThreadWait implements Runnable {
+
+	@Override
+	public synchronized void run() {
+		String name = Thread.currentThread().getName();
+		System.out.println(name);
+		for (int i = 0; i <= 8; i++) {
+			if (name.equals("wait")) {
+				System.out.println(i+" waiting");
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println(i+" notifying soon");
+				if (i == 5)
+					notify();
+			}
+		}
+
+	}
+
+}
