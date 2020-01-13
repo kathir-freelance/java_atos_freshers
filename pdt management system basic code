@@ -1,0 +1,132 @@
+UI:
+===
+package com.ui;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class Ui {
+	static Scanner scan=new Scanner(System.in);
+	static EmpService empServ=null;
+	
+	public static void main(String f[]){
+		System.out.println("Welcome, Admin!!!");
+		System.out.printf("1. add product \n2. find product by id\n");
+		System.out.println("3. get all products info");
+		System.out.println("enter option: ");
+		int choice=scan.nextInt();
+		switch(choice){
+		case 1:
+				empServ=new EmpService();
+				System.out.println("enter product info:");
+				Product pdt=new Product();
+				pdt.setPrice(scan.nextFloat());
+				pdt.setQuantity(scan.nextInt());
+				pdt.setProdId(new Random().nextInt(10909));
+				pdt.setProdName(scan.next());
+				int eid=empServ.addProduct(pdt);
+				System.out.println(eid>0?eid+" is stored successfully!!!!":"not stored");
+			break;
+		case 2:
+			empServ=new EmpService();
+			Product d=empServ.getProductById(1009);
+			System.out.println(d==null?"no data matching the id":d);
+			break;
+		case 3:
+			break;
+		default:
+			break;
+			
+		}
+	}
+}
+
+service:
+
+package com.ui;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class EmpService {
+	HashMap<Integer,Product> hmp=new HashMap();
+	public EmpService() {
+		hmp.put(1001, new Product(1001, "Tv", 5, 6000));
+		hmp.put(1002, new Product(1002, "Furniture", 5, 8000));
+		hmp.put(1003, new Product(1003, "Mobile", 5, 9800));
+	}
+	public int addProduct(Product pdt){
+		hmp.put(pdt.getProdId(), pdt);
+		//System.out.println(hmp);
+		return pdt.getProdId();
+	}
+	
+	public Product getProductById(int pdtId){
+		Product data=hmp.containsKey(pdtId)?hmp.get(pdtId):null;
+		//System.out.println(data);
+		return data;
+	}
+	
+	public HashMap<Integer,Product> getAllProducts(){
+		return hmp;
+	}
+}
+
+
+product:
+
+public class Product {
+	private int prodId;
+	private String prodName;
+	private int quantity;
+	private float price;
+	public Product() {
+		// TODO Auto-generated constructor stub
+	}	
+	public Product(int prodId, String prodName, int quantity, float price) {
+		this.prodId = prodId;
+		this.prodName = prodName;
+		this.quantity = quantity;
+		this.price = price;
+	}
+
+	public int getProdId() {
+		return prodId;
+	}
+
+	public void setProdId(int prodId) {
+		this.prodId = prodId;
+	}
+
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [prodId=" + prodId + ", prodName=" + prodName + ", quantity=" + quantity + ", price=" + price
+				+ "]";
+	}
+
+}
