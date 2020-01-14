@@ -1,0 +1,89 @@
+package com.test;
+
+import static org.junit.Assert.assertEquals;
+
+import java.sql.SQLException;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import com.dao.EmpDao;
+import com.model.Product;
+
+public class TestProduct {
+	Product p=null;
+	EmpDao  dao=null;
+	@Before
+	public void init(){
+		p=new Product();
+		dao=new EmpDao();
+	}
+	
+	@Test
+	@Ignore
+	public void testAddProduct1() throws SQLException {
+		p.setProdId(19088);
+		p.setPrice(7.8f);
+		p.setProdName("Riffle");
+		p.setQuantity(4);
+		int actualEmpId=dao.addProduct(p);
+		
+		assertEquals(19088, actualEmpId);
+	}
+	@Test
+	public void testAddProduct2() throws SQLException {
+		p.setProdId(1991);
+		p.setPrice(7.8f);
+		p.setProdName("Riffle");
+		p.setQuantity(4);
+		int actualEmpId=dao.addProduct(p);
+		
+		assertEquals(1991, actualEmpId);
+	}
+}
+
+
+TestDBConnectivity
+=====================
+package com.test;
+
+import static org.junit.Assert.assertNotNull;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+public class TestDbConnection {
+	Connection conn = null;
+	 String JDBC_DRIVER;
+	 String DB_URL = null;
+	 String UN = null;
+	 String PASS = null;
+
+	@Before
+	public void init()  {
+		JDBC_DRIVER = "com.mysql.jdbc.Driver";
+		DB_URL = "jdbc:mysql://localhost/project";
+		UN = "root";
+		PASS = "pas";
+	}
+	@Test
+	@Ignore
+	public void testMySqlConnectivity()throws SQLException {
+		conn = DriverManager.getConnection(DB_URL, UN, PASS);
+		assertNotNull(conn);
+	}
+	@Test(expected=SQLException.class)
+	public void testMySqlExcep()throws SQLException {
+		conn = DriverManager.getConnection(DB_URL, UN, PASS);
+		
+	}
+}
+
+
+
