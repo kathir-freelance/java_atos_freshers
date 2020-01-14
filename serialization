@@ -1,0 +1,86 @@
+package com.test;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class TestSerialization {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		// need target file where to write - emp1.txt
+		FileOutputStream fs=new FileOutputStream("emp1.txt");
+		ObjectOutputStream obj=new ObjectOutputStream(fs);
+		//who will write an object
+		Employee emp=new Employee(1001, "harish","true");
+		obj.writeObject(emp);
+	
+	//deserialization	
+	FileInputStream fis=new FileInputStream("emp1.txt");
+	ObjectInputStream ois=new ObjectInputStream(fis); 
+	Employee e=(Employee)ois.readObject();
+	System.out.println(e);
+	}
+
+}
+
+
+Pojo class:
+===========
+
+
+package com.test;
+
+import java.io.Serializable;
+
+public class Employee implements Serializable{
+	private int empId;
+	private String empName;
+	private transient String tempData;
+	private static String compName;
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	public String getEmpName() {
+		return empName;
+	}
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+	public String getTempData() {
+		return tempData;
+	}
+	public void setTempData(String tempData) {
+		this.tempData = tempData;
+	}
+	public static String getCompName() {
+		return compName;
+	}
+	public static void setCompName(String compName) {
+		Employee.compName = compName;
+	}
+	
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+	public Employee(int empId, String empName, String tempData) {
+		this.empId = empId;
+		this.empName = empName;
+		this.tempData = tempData;
+	}
+	static{
+		compName="CTS";
+	}
+	@Override
+	public String toString() {
+		return compName+" Employee [empId=" + empId + ", empName=" + empName + ", tempData=" + tempData + "]";
+	}
+	
+	
+}
