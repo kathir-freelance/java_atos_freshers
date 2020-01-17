@@ -1,0 +1,13 @@
+	
+	int ar[]={1,2,3,4,5};
+	get(ar);
+		
+
+	void get(int...ar){
+
+	for(int d:ar)
+	{
+	sysout("hi "+a);	
+	}	
+
+	}
