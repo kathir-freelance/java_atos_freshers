@@ -1,0 +1,16 @@
+
+
+display the info in a table
+
+10001  name   price  update | delete
+
+
+form 
+
+ 3 txt
+
+value must be populated in the form
+
+id should not be modified
+
+save it has to redirect to getall.jsp
