@@ -1,0 +1,4 @@
+https://oracle-base.com/articles/misc/monitoring-java-garbage-collection-using-jstat#using-jstat
+https://www.hackerearth.com/practice/notes/how-garbage-collection-works-in-java/
+https://www.dynatrace.com/resources/ebooks/javabook/analyzing-java-memory/
+https://stackify.com/what-is-java-garbage-collection/

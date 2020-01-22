@@ -1,0 +1,908 @@
+11:32 10-01-2020
+==================
+	Annotation:
+	
+		 
+
+collections
+
+	Hashtable and hashmap
+	deque and queue
+	Vector
+	diff vector and linkedList
+	logic behind HashSet
+
+	Comparable and comparator - Sudheer
+
+	
+	
+Its Iterator and ListIterator iterators are fail-fast
+(which means that after the iterator's creation, if the list is modified, 
+a ConcurrentModificationException will be thrown)
+
+Concurrency collections:
+
+CopyOnWriteArrayList API:
+
+
+
+
+	exception - is an event, which abruptly terminates the prog
+
+	checked(compile-time)  - taken care by pgmr
+		shud be handled by exception handling mech
+
+	ex: IOException,SQLException,
+
+
+
+	unchecked(runtime) - taken care by the system (JVM)
+		optional to handle it by excep handling mech
+
+	ex: RuntimeExcep --> NullPointer,ArrayIndexOBE,InputMismatch,NumberFormatException,	
+	
+
+	exception handling:
+
+		try, catch, throw, throws and finally
+		
+call stack mech
+
+custom exception
+
+Monolithic Application:
+
+Layered Architecture
+
+	Presentation/UI Layer		-	
+	Business/Application Layer	- validation+business logic 
+	DAO Layer(data access object layer)- code to connect with db 
+
+	com.cts.ui  - main
+	com.cts.model - pojo
+	com.cts.dao - db code
+	com.cts.service - validation + logic
+	com.cts.exception - userdefined excep
+	com.cts.util - 
+
+empManagement.jar or war
+
+Date/Time API:
+
+	java.util.Date 
+	java.util.Calendar
+	
+	java.sql.Date 
+
+in java 8 - java.time.*; 
+
+	LocalDate
+	LocalTime
+	LocalDateTime
+
+	Period
+	Instant
+	
+	DateTimeFormatter
+	SimpleDateFormat
+	DateFormat
+
+Lamada expressions
+	
+	Functional Interfaces 	- if a interface has only one abstract method
+
+	optionally be identified by using an annotation - @FunctionalInterface
+	
+
+	Marker Interfaces	- doesn't have any methods
+	
+	java.io.Serializable
+https://www.stackchief.com/tutorials/Java%20Collections%20In%20Depth
+stackify streams api
+
+
+io, jdbc
+
+multi thread, junit
+
+
+JDBC
+
+	jdbc 4.0 from java 8
+
+	steps for connecting with DB
+
+	1. load and register driver
+		
+		Class.forName("driver");
+
+		or
+		
+		registerDriver("driver");
+		
+	2. establish connection -DriverManager.getConnection(url,Un,pwd);
+		static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		static final String DB_URL = "jdbc:mysql://localhost/EMP";
+
+	3. execute the statement
+	4. iterate the data 
+		Moves the cursor forward one row from its current position.
+		A ResultSet cursor is initially positionedbefore the first row; 
+		the first call to the method next makes the first row the current row; 
+		thesecond call makes the second row the current row, and so on. 
+
+	5. close connection
+	6. handle exceptions
+
+from jdbc 4.0....
+
+Connection
+Driver 
+DriverManager
+Statement 
+PreparedStatement
+CallableStatement
+LoggableStatement
+ResultSet
+RowSet
+
+Exceptions to be handled (Checked type)
+
+	1. SQLException
+	  public java.lang.String getSQLState();
+	  public int getErrorCode();
+	  public java.sql.SQLException getNextException();
+	  public void setNextException(java.sql.SQLException);
+	
+	2. ClassNotFoundException
+
+	
+DDL
+	Column level declaration:
+	Create table table_name(col1 datatype1 constraintType,col2 datatype2)
+
+	table level declaration:
+	Create table table_name(col1 datatype1,col2 datatype2,constraintType(colname))
+
+	Drop table table_name
+
+DML
+
+	insert into table_name (col1,col2...) values(v1,v2,...)
+	update table_name set col=val
+	delete 
+
+create database project;
+
+use project;
+
+Create table employee(empid int,empname varchar(20),empdept varchar(20));
+
+
+
+select * from employee;
+
+
+insert into employee values(1001,"nakul","IT");
+insert into employee values(1002,"vinith","Admin");
+insert into employee values(1003,"rex","Training");
+insert into employee values(1004,"david","IT");
+
+
+DML - executeUpdate
+
+DDl - execute - boolean
+
+QL - select - executeQuery
+
+
+DML + DDL+ QL --> execute() but prob returns only a boolean
+
+
+Threading:
+	
+	Thread - 
+	process - 
+		
+
+	ways to create threads
+	
+	1. extends Thread
+		class Thread1 extends Thread
+		{
+			
+			public void run()
+			{
+			
+			}
+		}		
+
+	2. implements Runnable
+
+		class Thread1 implements Runnable 
+		{
+			@Override
+			public void run()
+			{
+				
+			}
+		}		
+priority:
+	getPri
+	setPri(int)
+
+MIN- 1
+NORM - 5  - default
+MAX-10
+
+	life cycle
+
+	new born
+	runnable  t1(1) t2(10)
+	running
+	blocked / waiting
+	dead/terminate
+
+	synchronization
+
+
+t1 t2 t3
+
+t1 - wait
+
+t2 - notify
+
+create table Product (prod_id int, prod_name  varchar(20),quantity int,price float);
+
+
+JUNIT 4 / 5
+
+	Debugging
+
+	unit Testing - junit 4 & 5,NgTesting....
+
+	unit Testing - module testing of a project created by the programmer
+	
+	junit 4 - single jar file
+	
+	Annotations - @Test,@After,@Before,@BeforeClass,@AfterClass,@Ignore,@Category...
+
+	junit4.jar to be added to build path
+
+	pkg to be imported - 
+		import static org.junit.Assert.*;
+		import org.junit.Test;
+	
+	Methods:
+		assertEquals	
+		assertNull
+		assertNotNull
+		assertThat
+		etc...
+
+	Junit 5 - has 3 jars - core, jupiter engine ,vintage engine
+
+	junit 5 has major changes
+	jupiter engine 	vintage engine)
+
+	platform launcher and runner helps in running the tests in the given environment
+	hamcrest api supports junit testing - internally referred
+
+	pkg to be imported - 
+		import static org.junit.jupiter.api.Assertions.*;
+		import org.junit.jupiter.api.Test;
+
+	2 new methods has been introduced in junit 5
+
+	assertAll
+	assertMatches
+	assertThrows
+
+	Assumptions
+
+IO +nio(non-blocking IO) 
+NIO.2
+
+IO Package: Input Output
+
+	2 types of stream
+	
+	Character stream
+		- used for char data (doc,txt etc) 	
+	Byte Stream
+		- binary data (images,java obj,etc)+ char data also
+
+base for all character stream
+
+	Reader(Input) ,Writer (output)
+
+base for all Byte stream
+
+	InputStream(Input),OutputStream (output)
+	
+class System{
+  public static final java.io.InputStream in;
+  public static final java.io.PrintStream out;
+  public static final java.io.PrintStream err;
+
+System.out.println();
+System.in.read();
+System.err.println();
+
+
+
+till java 7-->java.io.File
+from java 7 --->Files,Paths,Path,FileSystems,FileSystem,FileStore,Watcher services etc
+
+java obj(data)  - protocols(http) to carry
+
+binary(bytes)
+
+serialization
+obj (id,name,city) -----> bytes---> a.txt
+
+de-serialization
+a.txt ------> obj(id,name,city)
+
+
+Serialization
+	process of converting obj into bytes
+
+		FileOutputStream - opens & writes the file
+		ObjectOutputStream--->writeObject(obj)
+
+De-Serialization
+	process of converting bytes back into java obj
+
+		FileInputStream - opens & reads the file
+		ObjectInputStream--->readObject()
+
+
+Character :
+
+	InputStreamReader 
+	BufferedReader
+	+
+	FileReader
+
+InputStreamReader isr=new InputStreamReader(System.in);
+
+isr.read();
+
+ArrayBlockingQueue
+PriorityQueue
+
+Hashtable
+
+Properties
+
+ConcurrentHashMap
+
+
+Exception handling
+	
+
+a.txt
+
+java appln  - > watching any folder for-> new ,dele,copy....
+
+after year -> d:logs
+
+
+
+class selector
+
+id selector
+
+tag selector
+
+universal selector
+
+
+ div, span
+<wbr>
+<summary>
+
+
+F12 inspect tool
+
+
+
+
+
+
+09:41 17-01-2020
+==================
+
+Servlet:
+========
+	J2Se,J2ee / J2ME / Javafx, Java card .......
+
+	Java EE 8 - Jakarta EE 8
+
+	Java EE was maintained by Oracle under the Java Community Process. 
+
+	 Oracle Corporation announced that it would submit Java EE to the Eclipse Foundation
+	 name change happened....
+ 	 ref link - (https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition)
+		(http://pristinetechschool.com/various-editions-of-java-j2ee-j2se-and-j2me/)
+
+	C- .exe
+	C++ - .exe
+	java - .jar,.war
+
+frameworks -set of library ( api - application programming interface)
+
+	Stand alone / Desktop application	
+	
+	velocity,JSF,Struts,EJB,Spring,Hibernate(ORM),
+
+	Play framework,Spring Boot,Cloud....
+
+	kendoUI, 
+	
+	Eclipse, STS, IntelliJ
+
+	Website 	- modify -> wiki,w3schools
+	Web application - fb,amazon,....JS or java or C#,
+
+	java+html - jsp / servlets
+	c#+html - Asp
+	JS+html - jquery,angular or angjs or react,vue,
+
+	Tiered architecture :
+		single tiered - localhost + appln(PL+BL+DL+DB)
+		2nd tiered - client / server
+			
+			1. thin client  - Fat Server 
+				PL      - BL + DL +DB server
+			2. fat client   - Thin server
+			     PL+BL+DL   - DB server / log
+		
+		3 tiered - PL -0 +  application(BL+DL) - server + DB (server)
+		n-tier 
+		cloud / distributed......
+
+	.JAVA --- .class
+	jvm - input .class 
+
+
+	web server - .war - servlets , jsps
+
+	Application Server
+
+	web Container - special form of JVM- servlet container(engine) +  Jsp Container(engine)
+
+	services provided by web & appln server
+	
+	project managemment tool / build tool- maven
+
+	deployment - making an appln run on a server
+
+	Production /staging
+	
+	testing	 / debugging
+
+	repository / version control
+
+	CI / CD
+
+	html
+	protocol
+	http
+	URL /URI
+	browser
+		
+	Request
+	Response
+		headers
+	
+	CGI programming
+	
+	Jsp
+	Servlets
+
+	Servlet Engine / Jsp Engine
+
+		
+http://localhost:9090/MyFirstWebApp/
+
+	index.html
+	index.htm
+	index.jsp
+	default.html
+
+http://localhost:9090/MyFirstWebApp/MyServlet?numb=65
+
+get - appended in the url
+post - request body
+
+
+<servlet>
+  <servlet-name></servlet-name>
+  <servlet-class></servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name></servlet-name>
+  <url-pattern></url-pattern>	
+  </servlet-mapping>
+
+
+Jee MVC architecture
+
+	Controllers - Servlets (rarely jsp can be too)
+	View - can be html / JSP / Servlets
+	Model - normal POJO class 
+
+	Work of a controller
+
+		• Process input from a user
+		• Screen navigation
+		• Preparing data for view components
+
+
+	Work of a View
+
+		• Data presentation
+		• Data forms
+		• Navigational aids
+		• Informational screens or pop-ups
+
+	Work of a Model 
+			
+		• POJO Class or can also be called DTO
+		• holds data and helps in carrying data as single unit to 
+			different layers
+
+
+	Model 1 Architecture - refer
+
+	JSP :
+		Scripting Elements		
+
+	Comment <%-- comment --%>
+	Declaration <%! decl %>
+	Scriplet <% code %>
+	Expression <%= expr %>
+	
+Session
+	authenticated - after successfull login session will be created
+	un-authenticated - without login session will be created
+	
+cookies - session id is created in server and stored on client machine
+
+Implicit objects: objects created by jsp engine automatically
+			[during translation phase]
+		page
+		pageContext
+		application(servlet context)
+		servlet config
+		request
+		session 
+		response
+		exception
+		
+		Directive <%@ directive %>
+		
+		Taglib - custom tags or JSTL tags
+		
+			* hides java logic behind
+			* using these tags time consumption may be high but makes the work easy
+			* they have to be translated to servlet codes later - time consuming		
+			* removes servlet coding ion jsp		
+			* tag has prefix, tagname, attribute(some are optional)
+      jstl.jar(1.2 <--- or 1.4)
+core lib
+xml lib
+db lib
+fmt lib
+
+
+		EL - Expression Language
+	
+			used mostly along with JSTL tags
+			removes servlet coding ion jsp
+			has 4 scopes where it can search data for
+			${ } - representation (immediate execution)
+			#{ } - used for deffered execution[ used in spring]
+
+
+09:37 21-01-2020
+
+Maven : 
+	project management tool
+	
+	Build tool
+		
+	POM - 4.0
+	super- surefire
+
+	dependency 
+	
+	
+	Transitive dependency
+
+	Archetype - sample structure of a proj
+
+types	
+	local repo
+	central repo
+	remote repo[firewall] 
+	
+	C:\Users\DELL\.m2\repository
+
+	settings.xml - config for maven
+
+	eclipse config -- window->pref->maven->user settings	
+
+
+STS - spring tool suite
+
+Spring framework:
+
+	Rod Johnson - Interface21
+	Pivotel
+	
+	Spring.io
+	 
+	Spring 4.0 - java config+xml config
+	Spring 5.0 - java config	
+
+	Spring core
+	Spring beAN
+	context
+	spring exp
+	spring aop
+	aopalliance
+	
+
+	orm
+	tx
+	Oxm
+	jms
+	jdbc
+	web
+	web mvc
+	boot
+	cloud
+	hateos
+	xd
+	spring data jpa
+	
+	Spring IOC & DI
+
+
+bean or component - > scope ---singleton
+			    ---prototype
+
+	web appln - 3 more scopes
+
+		scope--- request
+		     --- session
+		     --- global-session
+
+AnnotationConfigApplicationContext is a standalone application context which accepts
+annotated classes as input. For instance, @Configuration or @Component. 
+
+Beans can be looked up with scan() or registered with register().
+
+	ACPC ctx = new AnnotationConfigApplicationContext();
+        ctx.scan("com.cts");
+        ctx.refresh();
+	Application bean = ctx.getBean(Application.class);
+
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>db.properties</value>
+		</property>
+	</bean>
+
+
+Spring java config
+
+Spring mvc
+		small talk - mvc 
+
+		web, webmvc dependencies
+
+		front controller pattern - 
+
+		eg: struts
+
+
+	base controller -------sub controllers
+
+1. DispatcherServlet------ userdefined controller class
+2. handler Mapping
+3. Controller
+4. Model or ModelAndView
+5. ViewResolver
+6. view
+
+web.xml - has config of dispatcher servlet
+
+localhost:8080/gmail/login
+
+DispatcherServlet - "/" --->HM
+HM--->HomeController - @RM("/") getHomePageLink()---->DS
+ctlr----"home"---DS
+
+DS---->"home"---VR
+VR--->/WEB-INF/views/home.jsp---DS
+DS--->view-----extract html o/p ----DS
+DS----displays on browser
+
+
+class Sample implements Controller	 
+{
+	handleRequest(req,resp); //mandatory overriden
+}
+
+dfrom spring 3.0
+
+@Controller
+class HomeController
+{
+	@RequestMapping("/")	
+	public String getHomePageLink()
+	{
+		return "home";
+	}
+}
+@Controller		
+class LoginController
+{
+	@RequestMapping(value="/login")	
+	public String getLoginPageLink()
+	{
+		return "loginpage";
+	}
+	@RequestMapping(value="/process",method=RequestMethod.POST)	
+	public String processLogin()
+	{
+		//logic
+		//success page path
+	}
+}
+
+
+Handler Mapping ["/"]
+
+	HomeController - @RM("/") getHomePageLink()
+
+	LoginController - @RM("/login") getLoginPageLink()
+			  @RM("/process") processLogin()
+
+
+ViewResolver - ["home"]
+
+	prefix - /WEB-INF/views/
+	suffix - .jsp
+
+View
+
+Demo :
+
+in web.xml
+
+<servlet>
+      <servlet-name>HelloWeb</servlet-name>
+      <servlet-class>
+         org.springframework.web.servlet.DispatcherServlet
+      </servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+
+   <servlet-mapping>
+      <servlet-name>HelloWeb</servlet-name>
+      <url-pattern>/</url-pattern>
+   </servlet-mapping>
+ 
+optional :
+============
+
+<listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+ 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/dispatcher-servlet-context.xml</param-value>
+  </context-param>
+
+
+in dispatcher servlet- *-servlet.xml
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+    <bean id="viewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+ 
+</beans>
+
+
+two controller 
+
+index
+
+Home
+	2mthod ->
+
+	@RM("/")
+	1st
+	return "index"
+
+	@RM("/login")
+	2ndmethod
+	
+
+Login
+
+	2mthod ->
+
+	@RM("/")
+	1st
+	return "index"
+
+
+	@RM("/login")
+	2ndmethod
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

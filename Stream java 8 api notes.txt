@@ -1,0 +1,146 @@
+A stream does not store data and, in that sense, is not a data structure. It also never modifies the underlying data source.
+
+private static Employee[] arrayOfEmps = {
+    new Employee(1, "Jeff", 100000.0), 
+    new Employee(2, "Bill", 200000.0), 
+    new Employee(3, "Mark ", 300000.0)
+};
+
+Stream.of(arrayOfEmps);
+
+empList.stream();
+
+from java 8 added a new stream() method to the Collection interface.
+
+Task:
+
+	try with Stream.Builder to create the above ?
+
+Methods :
+
+foreach: Terminal operation
+
+ empList.stream().forEach(e -> e.salaryIncrement(10.0));
+
+Collect():
+
+List<Employee> employees = empList.stream().collect(Collectors.toList());
+
+map():
+	Integer[] empIds = { 1, 2, 3 };
+	Stream.of(empIds)
+      .map(function...)
+      .collect(Collectors.toList());
+
+filter :
+
+Integer[] empIds = { 1, 2, 3, 4 };
+    
+    List<Employee> employees = Stream.of(empIds)
+      .map(employeeRepository::findById)
+      .filter(e -> e != null)
+      .filter(e -> e.getSalary() > 200000)
+      .collect(Collectors.toList());
+
+creation of stream:
+
+Stream<String> streamEmpty = Stream.empty();
+
+Collection<String> collection = Arrays.asList("hi", "hello", "welcome");
+Stream<String> streamOfCollection = collection.stream();
+
+of method:
+
+stream.Of()
+
+using Arrays:
+
+String[] arr = new String[]{"a", "b", "c"};
+Stream<String> streamOfArrayFull = Arrays.stream(arr);
+Stream<String> streamOfArrayPart = Arrays.stream(arr, 1, 3);
+
+Stream.builder():
+
+Stream<String> streamBuilder =
+ Stream.<String>builder().add("a").add("b").add("c").build();
+
+
+generate:
+
+Stream<String> streamGenerated =
+  Stream.generate(() -> "element").limit(10);
+
+
+Stream<Integer> streamIterated = Stream.iterate(40, n -> n + 2).limit(20);
+
+IntStream or other Streams:
+
+IntStream intStream = IntStream.range(1, 3);
+LongStream longStream = LongStream.rangeClosed(1, 3);
+
+diff between range and rangeClosed
+
+String:Stream -
+ 
+Stream<String> streamOfString =
+  Pattern.compile(", ").splitAsStream("a, b, c");
+
+
+Can also read from a file
+Path path = Paths.get("C:\\file.txt");
+Stream<String> streamOfStrings = Files.lines(path);
+
+
+we have findAny or findFirst()
+
+skip():
+
+Stream<String> onceModifiedStream =
+  Stream.of("abcd", "bbcd", "cbcd").skip(1);
+
+map():
+
+Stream<String> twiceModifiedStream =
+  stream.skip(1).map(element -> element.substring(0, 3));
+
+sorted and count():
+
+List<String> list = Arrays.asList("abc1", "abc2", "abc3");
+long size = list.stream().skip(1)
+  .map(element -> element.substring(0, 3)).sorted().count();
+
+Stream reduction : filtering,min,max etc
+A reduction operation (also called as fold) takes a sequence of input elements and 
+combines them into a single summary result by repeated application of a combining operation.
+
+
+OptionalInt reduced =
+  IntStream.range(1, 4).reduce((a, b) -> a + b);
+
+int reducedTwoParams =
+  IntStream.range(1, 4).reduce(10, (a, b) -> a + b);
+
+
+Collect():
+
+List<Product> productList = Arrays.asList(new Product(23, "potatoes"),
+  new Product(14, "orange"), new Product(13, "lemon"),
+  new Product(23, "bread"), new Product(13, "sugar"));
+
+
+List<String> collectorCollection = 
+  productList.stream().collect(Collectors.toList());
+
+distinct()
+anyMatch
+allmatch
+average()
+toSet
+toCollection
+what is flatMap
+peek()
+
+
+
+
+
