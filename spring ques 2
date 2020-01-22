@@ -1,0 +1,27 @@
+
+two controller 
+
+index
+
+Home
+	2mthod ->
+
+	@RM("/")
+	1st
+	return "index"
+
+	@RM("/login")
+	2ndmethod
+	
+
+Login
+
+	2mthod ->
+
+	@RM("/")
+	1st
+	return "index"
+
+
+	@RM("/login")
+	2ndmethod
