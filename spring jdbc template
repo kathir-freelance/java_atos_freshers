@@ -1,0 +1,68 @@
+	//@Autowired//bytype
+	private DataSource ds;
+	private JdbcTemplate jdbc;
+	
+	@Autowired
+	public void setDs(DataSource ds) {
+		this.ds=ds;
+		jdbc=new JdbcTemplate(this.ds);
+	}
+	
+	public int addProduct(Product product){
+		int storedStatus=jdbc.update("INSERT INTO product values(?,?,?,?)",new Object[]{product.getProdId(),product.getProdName(),product.getQuantity(),product.getPrice()});
+		System.out.println(storedStatus);
+		return product.getProdId();
+	}
+	
+
+<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<!-- value="com.mysql.jdbc.Driver" /> -->
+		<property name="url" value="jdbc:mysql://localhost:3306/project" />
+		<property name="username" value="root" />
+		<property name="password" value="pass" />
+		<property name="initialSize" value="2" />
+		<property name="maxActive" value="5" />
+	</bean>
+	
+  dependancy:
+  
+  		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.15</version>
+		</dependency>
+
+
+  its a console application
+  service layer
+  dao layer 
+  get user info and store in db, finally print id of user
+  
+  
+  
+  
+  
+   
+  
+  
