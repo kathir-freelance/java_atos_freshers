@@ -1,0 +1,15 @@
+
+	Question 1:
+	   a. Create 2 Beans with name Mall and Shop
+	   b. Mall is Singleton, but Shop to be prototype
+	Question 2:
+	   a. Use @Autowired annotation to create the object of shop
+	 	use qn1 solution
+	   b. how to create multiple objects of shop and autowire it to Mall object
+	   c. if the dependency is not available instead of throwing exception it has to print null, ie 
+		program shud not stop
+	
+	Question 3:			
+	
+	   a. Use context:annotation-config and use xml config for defining bean
+		declartion,no @Component to be used above bean, instead declare in the xml
