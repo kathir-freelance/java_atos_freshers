@@ -1,0 +1,186 @@
+SOA
+
+java appl ---- form - java obj--xml--serialized(0&1)-----deseri---xml---xsd--dotnet obj--bank(asp mvc)
+
+XML - XSD
+JSON - kv
+
+SOAP+http -WSDL - JAX-WS 
+JAX-RS -@get
+
+Spring - Representational State Transfer (REST) - 
+========================================
+Representational state transfer was introduced in 2000 by Ray Fielding
+
+Representational State Transfer (REST) is a software architectural style that 
+defines a set of constraints to be used for creating Web services.
+
+Software architecture refers to the fundamental structures of a software system and
+			     the discipline of creating such structures and systems
+
+It provide interoperability between computer systems on the Internet. 
+
+Rest full web services is accessing the resource(piece of code or method) using URI
+
+In a RESTful Web service, requests made to a resource's URI will elicit a 
+response with a payload formatted in HTML, XML, JSON, or some other format.
+
+When HTTP is used, as is most common, the operations (HTTP Req methods) available are 
+
+	GET, HEAD, POST, PUT, PATCH, DELETE, CONNECT, OPTIONS and TRACE.
+
+http://www.payroll.com/employees	POST	Creates a list of employees
+http://www.payroll.com/employees	PUT or PATCH	Updates a list of employees
+http://www.payroll.com/employees	DELETE	Deletes a list of employees
+http://www.payroll.com/addemployees	GET	Gets a list of employees
+http://www.payroll.com/employees/101	POST	Creates a employee with ID 101
+http://www.payroll.com/employees/101	PUT or PATCH	Updates employee with ID 101
+http://www.payroll.com/employees/101	DELETE	Deletes employee with ID 101
+http://www.payroll.com/employees/101	GET	Gets employee details with ID 101
+===================================================================================
+
+192.168.0.1:9080/gmail/login/{un}/{pwd}
+
+@RM("/login")
+public boolean loginUser(@PathVariable un,@PathVariable un)
+
+The most popular approach for implementing RESTful Web services is Sun’s JAX-RS 
+specification.
+
+There are several projects available that support JAX-RS such as CXF, Jersey, RESTEasy 
+and Restlet.
+
+===================================================================================
+Spring Rest:
+----------------
+Spring does not directly support JAX-RS, instead RESTful functionality is added to feature 
+Spring MVC 
+
+@Controller + @ResponseBody(triggers httpconverters ----jackson mapper)
+
+Spring 3.2.9--->@RestController -not in 4.0
+
+Spring MVC flow:
+-----------------
+
+1. The “DispatcherServlet” first receives the request
+2. The “DispatcherServlet” consults the “HandlerMapping” and invokes the “Controller” associated with the request
+3. The “Controller” process the request by calling the appropriate service methods and returns a “ModeAndView” object to the “DispatcherServlet”. 
+	The “ModeAndView” object contains the model data and the view name
+4. The “DispatcherServlet” sends the view name to a “ViewResolver” to find the actual “View” to invoke
+5. The “DispatcherServlet” passes the model object to the “View” to render the result
+6. The “View” with the help of the model data renders the result and return it back to the user
+
+JSON instead of 'XML'
+----------------------
+JSON is a text-based data interchange format that is 
+	lightweight
+	language independent
+	Easy for humans to read and write
+
+Dependency to be added in POM.xml
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+       <version>2.7.4</version>
+</dependency>
+
+Data Binding API is used to convert JSON to and from POJO (Plain Old Java Object) 
+using property accessor[getter,setter] or using annotations(@Value). 
+
+It is of two type.
+
+	1. Simple Data Binding - Converts JSON to and from Java Maps, Lists, 
+				 Strings, Numbers, Booleans and null objects.
+
+	2. Full Data Binding - Converts JSON to and from any JAVA type.
+
+ObjectMapper reads/writes JSON for both types of data bindings. 
+Data Binding is most convenient way and is analogus to JAXB parser for XML.
+-----------------------------------------------------------------------------------
+NOTE: There are two main annotations that can be used to to ignore properties:
+	 @JsonIgnore for individual properties
+	 @JsonIgnoreProperties for per-class definition
+
+@JsonIgnoreProperties({ "bookName", "bookCategory" })
+public class Book {
+   @JsonProperty("bookId")
+   private String id;
+	
+   @JsonProperty("bookName")		
+   private String name;
+
+@JsonProperty(access = Access.WRITE_ONLY)
+
+till jackson 1.9 -. we use jsonIgnore
+after we have to make use of JsonProperty 
+
+-----------------------------------------------------------------------------------
+@RequestMapping for class -missed
+
+Step1:
+
+create a maven webapp project 
+
+Step 2:
+add spring-webmvc 3.2.9 dependency(4.0.0)
+
+Step 3:
+create a web.xml and servlet and servlet mapping tag for dispatcher servlet
+
+<servlet>    
+    <servlet-name>dispatcher</servlet-name>    
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>    
+    <load-on-startup>1</load-on-startup>      
+</servlet>    
+<servlet-mapping>    
+    <servlet-name>dispatcher</servlet-name>    
+    <url-pattern>/rest/</url-pattern>    
+</servlet-mapping> 
+
+step 4:
+Then create a dispatcher descriptor xml file - naming convention to be followed
+	
+	*-servlet.xml 
+	* means should be name given in <servlet-name> tag in web.xml
+
+	then add view resolver - InternalResourceViewResolver bean tag(ensure prefix and suffix
+	are pointing to existing folder and extn)
+
+Then ensure <context:component scan is pointing to base package>
+-----------------------------------------------------------------------------------
+NOTE : pls check its poiting to base not a specific folder
+-----------------------------------------------------------------------------------
+step 5:
+	Spring 5 has @GetMapping etc
+	Spring 4 has @RestController
+	But in Spring 3 @controller + @ResponseBody to be use for json formatting or 
+	Xmlformatting
+	
+Step 6:
+	Add mvc:annotation driven in disp-serv.xml toenable @responsebody
+
+step 7:
+	follow same steps for layered architecure
+Step 8:
+	create a controller , annotate it as @Controller and 
+	create methods to handle services
+	
+	Say for example addEmployee
+	 @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	 @ResponseBody
+	 public Employee findEmployee(@PathVariable("id") long employeeId) {
+		//code to retrieve from db		
+	 	return emp;
+		}
+
+	
+In the above code @Responsebody is for conversion 
+@ResponseBody annotation tells a controller that the object returned is 
+automatically serialized into JSON and passed back into the HttpResponse object.
+
+@RequestBody annotation maps the HttpRequest body to a transfer or domain object, 
+enabling automatic deserialization of the inbound HttpRequest body onto a Java object.
+
+@path variable -> gets value from the url similiar to req param
