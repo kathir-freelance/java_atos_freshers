@@ -1,0 +1,181 @@
+Spring - jdbc 
+
+add dependency in pom
+
+1. spring-jdbc
+2. mysql
+3. commons-dbcp or dbcp2
+
+add Datasource bean in dispatcher.xml
+
+<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<!-- value="com.mysql.jdbc.Driver" /> -->
+		<property name="url" value="jdbc:mysql://localhost:3306/project" />
+		<property name="username" value="root" />
+		<property name="password" value="pass" />
+		<property name="initialSize" value="2" />
+		<property name="maxActive" value="5" />
+	</bean>
+
+Then in dao class,
+
+	create a variable
+
+	@Autowired
+	private DataSource ds;
+
+the above creates us a pool of connection obj [pre-connected with db]
+
+then we need to create jdbctemplate obj using it
+
+	jdbcTemplateObj	=new JdbcTemplate(ds);
+
+the above line can be written in each crud operation methods like add,delete etc.
+
+or
+
+
+	private DataSource ds;
+	private JdbcTemplate jdbcTemp;
+
+	@Autowired//can be kept here  or on the field
+	public void setDs(DataSource ds)
+	{
+		this.ds=ds; //not needed necessarily
+		jdbcTemplateObj	=new JdbcTemplate(ds);		
+	}
+
+or
+
+easy way
+
+
+	ApplicationContext ctx=new ClassPathXmlApplicationContext("spring.xml");
+	JdbcTemplate jdbc=(JdbcTemplate)ctx.getBean("jdbcTemp");
+
+in xml:
+	<bean id="jdbcTemp" class="org.springframework.jdbc.core.JdbcTemplate">
+	<property name="dataSource" ref="ds"></property>
+	</bean>
+
+or 
+
+<bean id="jdbcTemplate" 
+      class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+    <constructor-arg ref="dataSource"/>
+</bean>
+Later we can use the same for autowire also
+
+----------------------------------------------------------------------------------------------
+
+If u need to completely remove the above code: ie creating jdbctemplate obj creation in dao
+
+Use JdbcDaoSupport - helps use to remove the jdbctemplate and datasource obj code in dao class
+
+Add this in disp-serv.xml:
+==============================
+<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<!-- value="com.mysql.jdbc.Driver" /> -->
+		<property name="url" value="jdbc:mysql://localhost:3306/project" />
+		<property name="username" value="root" />
+		<property name="password" value="pass" />
+		<property name="initialSize" value="2" />
+		<property name="maxActive" value="5" />
+	</bean>
+
+
+  <bean id="employeeDAO" class="com.cts.dao.EmployeeDao">
+        <property name="dataSource" ref="ds" />
+    </bean>
+
+in above code 
+	ds- id of datsource bean
+        dataSource - is name of predefined prop
+
+	
+and in dao class just extend ur class by JdbcDaoSupport
+
+public class ProductDao extends JdbcDaoSupport{ }
+
+
+and where ever u need jdbctemplate obj - call getJdbcTemplate() method
+===============================================================================================
+What is NamedParameterJdbcTemplate:
+-------------------------------------
+template class with a basic set of JDBC operations, 
+allows us to use named parameters instead of '?' .
+
+String qry="select * from Product where id=:id and name=:name";
+
+      MapSqlParameterSource in = new MapSqlParameterSource();
+      in.addValue("id", id);
+      in.addValue("name", name);
+
+or 
+
+String query = "INSERT INTO FORUMS (FORUM_ID, FORUM_NAME, FORUM_DESC) VALUES (:forumId,:forumName,:forumDesc)";
+
+Map namedParameters = new HashMap();
+namedParameters.put("forumId", Integer.valueOf(forum.getForumId()));
+namedParameters.put("forumName", forum.getForumName());
+namedParameters.put("forumDesc", forum.getForumDesc());
+namedParameterJdbcTemplate.update(query, namedParameters);
+
+
+Similiarly we have to extend NamedParameterJdbcDaoSupport for named parameter passing
+
+public class ProductDao extends NamedParameterJdbcDaoSupport{}
+
+and where ever u need namedParameterJdbcTemplate - call getNamedParameterJdbcTemplate() method
+===============================================================================================
+methods of spring jdbc template:
+
+queryForList:
+
+	 String sql = "SELECT * FROM Product";
+	List<Map<String, Object>> list=jdbc.queryForList("select * from Product");
+	
+	for(Map<String,Object> obj :list){
+	Product p=new Product((Integer)obj.get("prod_id"),obj.get("prod_name").toString(),(Integer)obj.get("quantity"),(Float)obj.get("price"));
+	System.out.println(p);
+		}
+
+queryForObject:
+
+	 String sql = "SELECT * FROM Product WHERE prod_id = ?";
+
+         jdbcTemplate.queryForObject(sql, new Object[]{id}, new ProductrowMapper());
+
+==============================================================================================
+NOTE : we can use BEANROWMAPPER alternatively instead of RowMapper
+
+
+Product p=(Product)jdbcTemplate.queryForObject(
+			sql, 
+			new Object[]{id}, 
+			new BeanPropertyRowMapper(Product.class));
+==============================================================================================
+query():
+
+	String sql = "SELECT * FROM Product";
+
+        List<Customer> customers = jdbcTemplate.query(sql,new ProductrowMapper());
+==============================================================================================
+update(): - for insert,delete,update ----return type is int
+
+int storedStatus=getJdbcTemplate().update("INSERT INTO product values(?,?,?,?)",new Object[]{product.getProdId(),product.getProdName(),product.getQuantity(),product.getPrice()});
+
+==============================================================================================
+query with preparedstatement setter:
+
+jdbcTemplateObject.query(
+         SQL, new PreparedStatementSetter() {
+	        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+            preparedStatement.setInt(1, id);
+         }
+      },
+      new ProductrowMapper());
