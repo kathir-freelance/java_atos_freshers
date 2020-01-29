@@ -1,0 +1,84 @@
+==================
+module 3:
+
+Spring architecture:
+Authentication: 	Who am i? 	
+Authorization:		follows authentication
+			what we can do after authentication
+	
+Maven dependencies:
+2 spring security & 1 commons logging
+	1. Spring security web (either 3.2.0.Release or 4.2.4)
+	2. Spring security config
+	3. commons logging - (optional)
+Demo 1:
+Step 1 :
+In the existing Spring mvc application, add below code in web.xml
+<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-security.xml</param-value>
+	</context-param>
+	<!-- Spring Security Filter Configuration -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+Above is used to map incoming request to spring security feature
+Step 2:
+Then create a security xml file to hold security configin web-inf
+In security-config.xml
+<http auto-config="true">
+        <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+        <csrf disabled="true" />
+    </http>
+<authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="pass@1234" authorities="ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>   
+ </authentication-manager>
+
+In the above file we are configuring url pattern which has to be intercepted and asked for UN and PWD so that u can access the data’s and pages beyond it.
+NOTE :
+** in the url pattern is used for pattern any word or any char after “admin”
+Example like : adminPage or admin/anything etc….. 
+Then we have to provide the role and UN and PWD in <authentication-manager> tag.
+Create a index.jsp page which has a link to admin page.(url pattern in controller for the page, ie., call should go to spring controller and display its view.)
+Create a admin jsp page and get any info added in req attribute and print it there.
+Step 3:
+In Spring controller add the below code:
+@Controller
+public class SecurityController {
+
+	@RequestMapping(value="/", method = RequestMethod.GET)
+    public String visitHomePage() {
+        return "index";
+    }
+ 
+    @RequestMapping(value="/admin", method = RequestMethod.GET)
+    public String visitAdministratorPage(ModelMap modelObj) {       
+        modelObj.addAttribute("welcomeTitle", "Admministrator Control Panel");
+        modelObj.addAttribute("messageObj", "This Page Demonstrates How To Use Spring Security!");
+        return "admin";
+    }
+}
+Step 4:
+Then run the application: 
+Ensure spring and security dependencies are added to the pom
+And ensure server is added to the application
+
+TASK:
+
+Identify how to handle if user is not admin, 
+It should be redirected to another page maybe error.jsp 
