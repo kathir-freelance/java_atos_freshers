@@ -1,0 +1,553 @@
+SOA
+
+java appl ---- form - java obj--xml--serialized(0&1)-----deseri---xml---xsd--dotnet obj--bank(asp mvc)
+
+XML - XSD
+JSON - kv
+
+SOAP+http -WSDL - JAX-WS 
+JAX-RS -@get
+
+Spring - Representational State Transfer (REST) - 
+========================================
+Representational state transfer was introduced in 2000 by Ray Fielding
+
+Representational State Transfer (REST) is a software architectural style that 
+defines a set of constraints to be used for creating Web services.
+
+Software architecture refers to the fundamental structures of a software system and
+			     the discipline of creating such structures and systems
+
+It provide interoperability between computer systems on the Internet. 
+
+Rest full web services is accessing the resource(piece of code or method) using URI
+
+In a RESTful Web service, requests made to a resource's URI will elicit a 
+response with a payload formatted in HTML, XML, JSON, or some other format.
+
+When HTTP is used, as is most common, the operations (HTTP Req methods) available are 
+
+	GET, HEAD, POST, PUT, PATCH, DELETE, CONNECT, OPTIONS and TRACE.
+
+http://www.payroll.com/employees	POST	Creates a list of employees
+http://www.payroll.com/employees	PUT or PATCH	Updates a list of employees
+http://www.payroll.com/employees	DELETE	Deletes a list of employees
+http://www.payroll.com/addemployees	GET	Gets a list of employees
+http://www.payroll.com/employees/101	POST	Creates a employee with ID 101
+http://www.payroll.com/employees/101	PUT or PATCH	Updates employee with ID 101
+http://www.payroll.com/employees/101	DELETE	Deletes employee with ID 101
+http://www.payroll.com/employees/101	GET	Gets employee details with ID 101
+===================================================================================
+
+192.168.0.1:9080/gmail/login/{un}/{pwd}
+
+@RM("/login")
+public boolean loginUser(@PathVariable un,@PathVariable un)
+
+The most popular approach for implementing RESTful Web services is Sun’s JAX-RS 
+specification.
+
+There are several projects available that support JAX-RS such as CXF, Jersey, RESTEasy 
+and Restlet.
+
+===================================================================================
+Spring Rest:
+----------------
+Spring does not directly support JAX-RS, instead RESTful functionality is added to feature 
+Spring MVC 
+
+@Controller + @ResponseBody(triggers httpconverters ----jackson mapper)
+
+Spring 3.2.9--->@RestController -not in 4.0
+
+Spring MVC flow:
+-----------------
+
+1. The “DispatcherServlet” first receives the request
+2. The “DispatcherServlet” consults the “HandlerMapping” and invokes the “Controller” associated with the request
+3. The “Controller” process the request by calling the appropriate service methods and returns a “ModeAndView” object to the “DispatcherServlet”. 
+	The “ModeAndView” object contains the model data and the view name
+4. The “DispatcherServlet” sends the view name to a “ViewResolver” to find the actual “View” to invoke
+5. The “DispatcherServlet” passes the model object to the “View” to render the result
+6. The “View” with the help of the model data renders the result and return it back to the user
+
+JSON instead of 'XML'
+----------------------
+JSON is a text-based data interchange format that is 
+	lightweight
+	language independent
+	Easy for humans to read and write
+
+Dependency to be added in POM.xml
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+       <version>2.7.4</version>
+</dependency>
+
+Data Binding API is used to convert JSON to and from POJO (Plain Old Java Object) 
+using property accessor[getter,setter] or using annotations(@Value). 
+
+It is of two type.
+
+	1. Simple Data Binding - Converts JSON to and from Java Maps, Lists, 
+				 Strings, Numbers, Booleans and null objects.
+
+	2. Full Data Binding - Converts JSON to and from any JAVA type.
+
+ObjectMapper reads/writes JSON for both types of data bindings. 
+Data Binding is most convenient way and is analogus to JAXB parser for XML.
+-----------------------------------------------------------------------------------
+NOTE: There are two main annotations that can be used to to ignore properties:
+	 @JsonIgnore for individual properties
+	 @JsonIgnoreProperties for per-class definition
+
+@JsonIgnoreProperties({ "bookName", "bookCategory" })
+public class Book {
+   @JsonProperty("bookId")
+   private String id;
+	
+   @JsonProperty("bookName")		
+   private String name;
+
+@JsonProperty(access = Access.WRITE_ONLY)
+
+till jackson 1.9 -. we use jsonIgnore
+after we have to make use of JsonProperty 
+
+-----------------------------------------------------------------------------------
+@RequestMapping for class -missed
+
+Step1:
+
+create a maven webapp project 
+
+Step 2:
+add spring-webmvc 3.2.9 dependency(4.0.0)
+
+Step 3:
+create a web.xml and servlet and servlet mapping tag for dispatcher servlet
+
+<servlet>    
+    <servlet-name>dispatcher</servlet-name>    
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>    
+    <load-on-startup>1</load-on-startup>      
+</servlet>    
+<servlet-mapping>    
+    <servlet-name>dispatcher</servlet-name>    
+    <url-pattern>/rest/</url-pattern>    
+</servlet-mapping> 
+
+step 4:
+Then create a dispatcher descriptor xml file - naming convention to be followed
+	
+	*-servlet.xml 
+	* means should be name given in <servlet-name> tag in web.xml
+
+	then add view resolver - InternalResourceViewResolver bean tag(ensure prefix and suffix
+	are pointing to existing folder and extn)
+
+Then ensure <context:component scan is pointing to base package>
+-----------------------------------------------------------------------------------
+NOTE : pls check its poiting to base not a specific folder
+-----------------------------------------------------------------------------------
+step 5:
+	Spring 5 has @GetMapping etc
+	Spring 4 has @RestController
+	But in Spring 3 @controller + @ResponseBody to be use for json formatting or 
+	Xmlformatting
+	
+Step 6:
+	Add mvc:annotation driven in disp-serv.xml toenable @responsebody
+
+step 7:
+	follow same steps for layered architecure
+Step 8:
+	create a controller , annotate it as @Controller and 
+	create methods to handle services
+	
+	Say for example addEmployee
+	 @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	 @ResponseBody
+	 public Employee findEmployee(@PathVariable("id") long employeeId) {
+		//code to retrieve from db		
+	 	return emp;
+		}
+
+	
+In the above code @Responsebody is for conversion 
+@ResponseBody annotation tells a controller that the object returned is 
+automatically serialized into JSON and passed back into the HttpResponse object.
+
+@RequestBody annotation maps the HttpRequest body to a transfer or domain object, 
+enabling automatic deserialization of the inbound HttpRequest body onto a Java object.
+
+@path variable -> gets value from the url similiar to req param
+
+@PathParam and @QueryParam, the above two annotations are defined in JAX-RS implementations 
+
+https://docs.spring.io/spring-roo/reference/html/base-json.html
+----------------------------------------------------------------
+
+ResponseEntity<String> hello() {
+    return new ResponseEntity<>("Hi!", HttpStatus.OK);
+}
+
+ public ResponseEntity < List < Product>> getList(){
+ HttpHeaders headers = new HttpHeaders();
+        headers.add("Responsedby", "MyController");
+	headers.add("Content-Type", "application/json; charset=utf-8");
+        return ResponseEntity.accepted().headers(headers).body(users);
+}
+
+new ResponseEntity < Customer > (customer, HttpStatus.OK);
+
+@ResponseStatus(HttpStatus.CREATED) - method
+
+if (id <= 3) {
+            Product product = new Product(1009,"ddd",9,9898.7f);
+            return new ResponseEntity<Product>(product, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+if (products == null) {
+        return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+    }
+
+if (!applicants.isEmpty()) {
+       return ResponseEntity.ok().body(applicants);
+    }else{
+      return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+    }
+
+having 2 view resolver
+========================
+https://howtodoinjava.com/spring-restful/spring-rest-hello-world-json-example/
+
+
+
+----------------------------------------------------------------------------------- 
+NOTE:
+------
+Use RequestBody before bean obj  to get data from postman if its from same appln 
+jsp then use @ModelAttribute
+https://www.javacodegeeks.com/2010/06/spring-3-restful-web-services.html
+	
+Transaction:
+--------------
+Using transaction in this:
+===============================
+	
+use @Transactional
+
+to enable use 
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+for propagation and isolation 
+=================================
+PROPAGATION LEVEL:
+====================
+Developer has the ability to decide how the business methods should be encapsulated 
+in both logical or physical transactions
+
+REQUIRED behavior
+--------------------
+ * same transaction will be used if there is an already opened transaction in the 
+   current bean method execution
+ * If there is no existing transaction , creates new one
+ * If multiple methods configured as REQUIRED behavior are called in a nested way 
+   they will be assigned distinct logical transactions but they will all share the 
+   same physical transaction. 
+
+ * In short this means that if an inner method causes a transaction to rollback,
+   the outer method will fail to commit and will also rollback the transaction
+
+REQUIRES_NEW behaviour:
+------------------------
+ * new physical transaction will always be created by the container
+ * inner transaction may commit or rollback independently of the outer transaction
+	inner runs in diff physical transaction
+	outer runs in its own transaction
+
+@Autowired
+private InnerBean innerBean;
+
+@Override
+@Transactional(propagation=Propagation.REQUIRED)
+public void testRequiresNew(User user) {
+  testDAO.insertUser(user);
+  try{
+    innerBean.testRequiresNew();
+  } catch(RuntimeException e){
+    // handle exception
+  }
+}
+
+@Override
+@Transactional(propagation=Propagation.REQUIRES_NEW)
+public void testRequiresNew() {
+  throw new RuntimeException("Rollback this transaction!");
+}
+
+ * The inner method is annotated with REQUIRES_NEW and throws a RuntimeException 
+so it will set its transaction to rollback but will not affect the outer transaction.
+
+ * The outer transaction is paused when the inner transaction starts and 
+then resumes after the inner transaction is concluded. They run independently of 
+each other so the outer transaction may commit successfully.
+
+The NESTED behavior 
+
+ * makes nested Spring transactions to use the same physical transaction but sets
+   savepoints between nested invocations so inner transactions may also rollback 
+   independently of outer transactions.
+MANDATORY behavior
+
+ * an existing opened transaction must already exist. If not an exception will be 
+   thrown by the container.
+
+NEVER behavior
+
+ * an existing opened transaction must not already exist. If a transaction exists
+ an   exception will be thrown by the container.
+
+NOT_SUPPORTED behavior
+
+ * will execute outside of the scope of any transaction. If an opened transaction 
+   already exists it will be paused.
+
+SUPPORTED behavior
+
+ * The SUPPORTS behavior will execute in the scope of a transaction if an opened 
+   transaction already exists. If there isn't an already opened transaction the 
+   method will execute anyway but in a non-transactional way.
+
+
+ISOLATION LEVEL:
+=================
+
+READ_UNCOMMITTED:
+-------------------
+isolation level states that a transaction may read data that is still uncommitted 
+by other transactions. This constraint is very relaxed in what matters to transactional
+concurrency but it may lead to some issues like dirty reads. 
+
+Note: READ_UNCOMMITTED is also vulnerable to non-repeatable reads and phantom reads. 
+
+For Dirty read:
+================
+thread 1   thread 2      
+      |         |
+    write(x)    |
+      |         |
+      |        read(x)
+      |         |
+    rollback    |
+      v         v 
+           value (x) is now dirty (incorrect)
+
+-----------------------------------------------------------------------------------
+READ_COMMITTED :
+------------------
+isolation level states that a transaction can't read data that is not yet committed 
+by other transactions. This means that the dirty read is no longer an issue, but 
+even this way other issues may occur.
+
+For Non-Repeatable read:
+========================
+thread 1   thread 2      
+      |         |
+    Read(x)     |
+      |         |
+      |       write(x=1)
+      |	      commit
+      |		|
+     Read(x)   	|
+      |         |
+      |		|
+      v         v 
+
+
+Note: READ_COMMITTED is also vulnerable to phantom reads
+-----------------------------------------------------------------------------------
+REPEATABLE_READ
+
+REPEATABLE_READ isolation level states that if a transaction reads one record from 
+the database multiple times the result of all those reading operations must always
+be the same.
+
+Serializable
+
+
+https://www.javacodegeeks.com/2016/05/understanding-transactional-annotation-spring.html
+===================================================================================
+Spring CXF Rest Services:
+--------------------------
+What is Apache CXF
+Apache CXF is a service framework, that can be used by developers to create 
+exposable and reusable web services.
+
+light weight and easy to plugin to any Java based applications
+
+Step 1:
+
+create a mven webapp and add spring dependency in pom.xml
+
+<properties>
+        <cxf.version>2.5.2</cxf.version>
+        <httpclient.version>3.1</httpclient.version>
+        <jax.ws.rs>2.0.1</jax.ws.rs>
+        <springmvc>3.2.9.RELEASE</springmvc>
+        <jackson.version>1.1.1</jackson.version>
+    </properties>
+<dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springmvc}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${springmvc}</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springmvc}</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${jax.ws.rs}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+</dependencies>
+
+http transport api that handles the transportation from process from start to 
+end points.
+
+
+Step 2:
+
+in web.xml
+
+<listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+   
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/cxf-servlet.xml</param-value>
+  </context-param>
+
+<servlet>
+    <servlet-name>CXFServlet</servlet-name>
+    <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+  </servlet>
+   
+  <servlet-mapping>
+    <servlet-name>CXFServlet</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+Step 3:
+
+In  rest-servlet.xml ->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<bean id="empService" class="com.ct.demo.EmpService"
+		init-method="init"></bean>
+	<bean id="jsonProvider"
+		class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+
+	<jaxrs:server id="emprs" address="/rservice">
+
+		<jaxrs:serviceBeans>
+			<ref bean="empService" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+		</jaxrs:providers>
+	</jaxrs:server>
+</beans>
+
+<jaxrs:server /> defines which service bean to be invoked for the incoming http 
+requests. In this case, any wild card pattern "/" will invoke "playerService"
+which is registered as service bean using @Service("EmpService") annotation 
+(on top of the EmpServiceImpl java class)
+
+bean with id="jsonProvider" defined to support JSON format
+bean with id="jaxbXmlProvider" defined to support XML format
+
+
+create a bean class and mark it with xml annotations if u need to expose xml 
+
+ <!-- to support Java-to-XML and vice-versa conversion -->
+    <bean id="jaxbXmlProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
+ <jaxrs:providers>
+            <ref bean="jsonProvider" />
+            <ref bean="jaxbXmlProvider" />
+        </jaxrs:providers>
+
+
+*****
+Ensure that the @GET & POST are given prperly in service
+*****
+
+refer : http://www.benchresources.net/apache-cxf-jax-rs-restful-web-service-using-both-json-xml-example/
+https://www.javainterviewpoint.com/jax-rs-rest-produces-both-xml-and-json-example/
+https://stackoverflow.com/questions/17954148/latest-cxf-with-spring-warning-javax-ws-rs-notfoundexception
+
+==================================================================================
+Reference for cxf:
+http://www.learninjava.com/pages/restful-webservice-using-cxf.php
+https://www.javacodegeeks.com/2013/07/developing-restful-services-using-apache-cxf.html
+	
+Reference :
+============
+https://www.javainterviewpoint.com/spring-mvc-crud-example-mysql/
+
+spring 5
+https://www.dineshonjava.com/spring-restful-web-services-json-crud-example/
