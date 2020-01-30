@@ -1,0 +1,14 @@
+	index.jsp - permitAll
+
+	login.jsp - default (inbuilt)	
+
+	cart.jsp - logged in user
+
+	edit.jsp - admin,seller
+
+	viewProduct.jsp [viewall or by id] - permitAll
+
+	transHistory.jsp - logged in user			
+
+display the logged in userName in all the pages [using securityContextHolder]					
+display user's or admin's authority(role) in success page
