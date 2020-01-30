@@ -1,3 +1,58 @@
+	
+	
+<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+		<security:user name="bill" password="abc123" authorities="ROLE_USER" />
+		<security:user name="admin" password="root123" authorities="ROLE_ADMIN" />
+		<security:user name="dba" password="root123" authorities="ROLE_ADMIN,ROLE_DBA" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+
+  private String getPrincipal() {
+	    	String userName=null;
+	    	Object principal =SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    	 if (principal instanceof UserDetails) {
+	             userName = ((UserDetails)principal).getUsername();
+	         } else {
+	             userName = principal.toString();
+	         }
+	         return userName;
+		}
+
+
+@RequestMapping(value="/logout", method = RequestMethod.GET)
+	       public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	          Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	          if (auth != null){    
+	             new SecurityContextLogoutHandler().logout(request, response, auth);
+	          }
+	          return "index";
+	       }
+	 
+in admin.jsp
+<%@ taglib uri="http://www.springframework.org/security/tags"
+  prefix="security"%>
+
+ <security:authorize access="isAnonymous()">
+         Guest - u r not allowed
+     </security:authorize>
+    <!-- Print the logged in user name -->
+    <security:authorize access="isAuthenticated()">
+      <security:authentication property="principal.username" />
+    </security:authorize>
+ <security:authorize access="isAuthenticated()">
+<security:authorize access="hasRole('USER')">
+      <a href="user/profile">My Profile</a>
+    </security:authorize>
+    <security:authorize access="hasRole('ADMIN')">
+      <a href="admin/profile">My Profile</a>
+    </security:authorize>
+
+	task
+	
 	index.jsp - permitAll
 
 	login.jsp - default (inbuilt)	
