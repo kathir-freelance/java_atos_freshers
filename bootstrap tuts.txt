@@ -1,0 +1,240 @@
+BootStrap:
+
+ flexible and responsive web layouts with much less efforts.
+
+ developer at Twitter by 2010
+
+ Bootstrap was known as Twitter Blueprint.
+
+ Bootstrap is used in NASA, University of Washington, FIFA, Newsweek, VOGUE
+
+ Bootstrap responsive, it is mobile-first. 
+ This means that it is primarily designed for mobile devices, then scales up from there
+
+ Bootstrap 4 2015 and final version is in jan 2018
+
+To find diff b/w BS 3 and 4 click below:
+ 
+https://www.quackit.com/bootstrap/bootstrap_4/differences_between_bootstrap_3_and_bootstrap_4.cfm
+
+
+Add this in head tag in html:
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+Popper. js is a positioning engine, its purpose is to calculate the position of an element to make it possible to position it near a given reference element. 
+
+Bootstrap uses jQuery for JavaScript plugins (like modals, tooltips, etc). However, if you just use the CSS part of Bootstrap, you don't need jQuery.
+
+To ensure proper rendering and touch zooming, add the following <meta> tag in head tag0
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	width=device-width ===>screen-width of the device(varies depending on device)
+	initial --->initial zoom level when browser displays page for 1st time 
+
+
+Containers:
+	 provide the foundation of page layout
+	 contains elements of site [form ,link etc]
+
+two container classes :
+	
+	* .container ----> fixed width
+		As you resize your browser, its width remains intact, until it passes a
+		certain breakpoint (specified by us)
+		at which time it will resize to the new width for that break point.
+ex:
+
+<div class="container">
+  <h1>My First Bootstrap Page</h1>
+  <p>This is some text.</p>
+</div>
+	* .container-fluid ---> full width container
+ex:		
+	
+<div class="container.fluid">
+  <h1>My First Bootstrap Page</h1>
+  <p>This is some text.</p>
+</div>	
+
+Grid systems enable you to create advanced layouts using rows and columns
+
+grid system can have up to 12 columns
+
+introduces the new mobile-first flexbox grid system that appropriately 
+scales up to 12 columns as the device or viewport size increases.
+you can specify how these columns scale for different viewport sizes
+
+=========> 12
+
+span 1	span 1	span 1	span 1	span 1	span 1	span 1	span 1	span 1	span 1	span 1	span 1
+
+=========> 4 ,4 & 4 span
+
+span1 span1 span1 span1	| span1 span1 span1 span1 | span1 span1 span1 span1
+
+=========> 4 & 8 span
+
+span1 span1 span1 span1	| span1 span1 span1 span1 span1 span1 span1 span1
+
+=========> 6 & 6 span
+
+span1 span1 span1 span1	span1 span1 | span1 span1 span1 span1 span1 span1
+
+
+The Bootstrap 4 grid system has five classes:
+
+.col- (extra small devices - screen width less than 576px)
+.col-sm- (small devices - screen width equal to or greater than 576px)
+.col-md- (medium devices - screen width equal to or greater than 768px)
+.col-lg- (large devices - screen width equal to or greater than 992px)
+.col-xl- (xlarge devices - screen width equal to or greater than 1200px)
+
+Grids should be placed within a container
+
+Rows contain one or more columns.
+Columns contain the content. 
+
+Only columns can be immediate children of rows.
+
+More than 12 Columns per Row?
+If more than 12 columns are placed in a row, the columns will wrap to a new line.
+That is, columns will wrap as a group. So for example, if a row contains a col-md-10 and 
+a col-md-3, the whole col-md-3 will wrap to the new line.
+
+Less than 12 Columns per Row?
+
+
+Multiple Classes
+You can use multiple class sizes for a given element.
+ For example, you could use class="col-sm-10 col-md-6" to specify 10 columns for 
+ small viewports and 6 columns for medium and large viewports.
+
+Bootstrap 4 Default Settings
+
+default font-size of 16px, 
+
+line-height is 1.5.
+
+The default font-family is Helvetica, Arial, sans-serif.
+
+ <p> elements have margin-top: 0 and margin-bottom: 1rem (16px by default).
+
+for headings:
+
+.display-1, .display-2, .display-3, .display-4
+
+Text colors: default --> .text-light
+
+.text-muted, .text-primary, .text-success, .text-info, .text-warning, .text-danger, .text-secondary, .text-white, .text-dark, .text-body 
+
+you can also add 50% opacity for black or white text with the .text-black-50 or .text-white-50 classes:
+
+ <p class="text-black-50">Black text with 50% opacity on white background</p>
+
+ <p class="text-white-50 bg-dark">White text with 50% opacity on black background</p>
+
+
+what is use of .lead?
+what is the use of <mark> ?
+
+.initialism class to render the abbreviation in a slightly smaller font size.
+
+Lists
+Bootstrap applies various styles and has a number of classes specifically for lists.
+
+Lists — Unstyled
+You can use the Bootstrap .list-unstyled class to render lists without their default list-style and left-margin:
+
+
+to display content horizontaly 
+classes to render lists as display: inline-block and to apply some padding:
+
+.list-inline and .list-inline-item
+
+
+<ul class="list-inline">
+  <li class="list-inline-item">Cats</li>
+  <li class="list-inline-item">Dogs</li>
+  <li class="list-inline-item">Elephants</li>
+</ul>
+ 
+Tables :
+
+dark tables are new in BS4: give -><table class="table table-dark">
+
+Striped table : 
+
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Header 1</th>
+<th>Header 2</th>
+<th>Header 3</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th>Footer 1</th>
+<th>Footer 2</th>
+<th>Footer 3</th>
+</tr>
+</tfoot>
+<tbody>
+<tr>
+<td>Cell</td>
+<td>Cell</td>
+<td>Cell</td>
+</tr>
+<tr>
+<td>Cell</td>
+<td>Cell</td>
+<td>Cell</td>
+</tr>
+<tr>
+<td>Cell</td>
+<td>Cell</td>
+<td>Cell</td>
+</tr>
+</tbody>
+</table>
+
+for table border :
+ 	.table-bordered
+
+hovered table : when mouse is placed above it ll highlight the fields its moving
+
+<table class="table table-hover">
+
+Small/Condensed Table : compact table , removes the padded spaces.
+
+<table class="table table-sm"> in BS 3 we use .table-condensed
+
+contextual classes:
+
+The 5 contextual classes are: .table-active, .table-success, .table-info, .table-warning, and .table-danger.
+
+can give colour for a particular cell alone
+
+<table class="table">
+<thead>
+<tr>
+<th>Header 1</th>
+<th>Header 2</th>
+<th>Header 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="table-active">Active</td>
+<td class="table-success">Success</td>
+
+
+responsive table : create table inside div and make div class as shown below
+
+div class="table-responsive">
+<table class="table">

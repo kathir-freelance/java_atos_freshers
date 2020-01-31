@@ -98,8 +98,46 @@ Lamada expressions
 	
 	java.io.Serializable
 https://www.stackchief.com/tutorials/Java%20Collections%20In%20Depth
-stackify streams api
 
+employees.stream()
+        .collect(Collectors.groupingBy(Emp::getDesig,
+                Collectors.toList()));
+
+Employees with duplicated first name
+-----------------------------------------
+ employees.stream()
+        .collect(Collectors.groupingBy(Emp::getDesig,
+            Collectors.mapping(Emp::getName,
+                        Collectors.toList())));
+
+empList.stream().collect(Collectors
+            .groupingBy(Emp::getDesig, Collectors.summingDouble(Emp::getSalary)));
+	
+
+empList.stream().collect(Collectors.groupingBy(Emp::getDesig),
+			Collectors.summingDouble(Emp::getSalary))
+
+
+		List mm = empList.stream().filter((des) -> des.getDesig().equals("Consultant")).collect(Collectors.toList());
+		System.out.println(mm);
+		// long count=mm.count();
+		// System.out.println(count);
+		Double d = empList.stream().collect(Collectors.summingDouble(Emp::getSalary));
+		System.out.println(d);
+
+Stream api:
+-------------
+stackify.com
+https://javaconceptoftheday.com/java-8-streams-beginners-guide/
+https://www.conductor.com/nightlight/using-java-8-streams-to-process-large-amounts-of-data/
+https://coderscampus.com/why-you-need-to-start-using-streams-in-java/
+https://javarevisited.blogspot.com/2017/01/3-ways-to-convert-java-8-stream-to-array.html#axzz6C2FajPJY
+
+https://stackoverflow.com/questions/35047143/cannot-convert-intstream-to-some-object-stream
+Stream api real time scenarios:
+==================================
+https://javadeveloperzone.com/java-basic/java-8-stream-group-count/#Example_3_Grouping_by_summingInt
+https://automationrhapsody.com/java-8-features-stream-api-advanced-examples/
 
 io, jdbc
 
@@ -536,22 +574,22 @@ Jee MVC architecture
 
 	Work of a controller
 
-		• Process input from a user
-		• Screen navigation
-		• Preparing data for view components
+		ï¿½ Process input from a user
+		ï¿½ Screen navigation
+		ï¿½ Preparing data for view components
 
 
 	Work of a View
 
-		• Data presentation
-		• Data forms
-		• Navigational aids
-		• Informational screens or pop-ups
+		ï¿½ Data presentation
+		ï¿½ Data forms
+		ï¿½ Navigational aids
+		ï¿½ Informational screens or pop-ups
 
 	Work of a Model 
 			
-		• POJO Class or can also be called DTO
-		• holds data and helps in carrying data as single unit to 
+		ï¿½ POJO Class or can also be called DTO
+		ï¿½ holds data and helps in carrying data as single unit to 
 			different layers
 
 
@@ -857,21 +895,266 @@ Login
 
 
 	@RM("/login")
+
 	2ndmethod
 
+<context:annotation-config>
+<context:component-scan>
 
+@Component
+	@Controller
+	@Service
+	@Repository
+
+@RequestMapping
+	method
+	class
+
+@RequestParam("name") String name====String name= req.getParameter("name");
+
+
+@RequestMapping(method=RequestMethod.GET) ===  @GetMapping
+@RequestMapping(method=RequestMethod.POST)===  @PostMapping
+
+we need to add <mvc:anno-driven> in disp.xml
+
+or configure reqannotationhandlermapping and also adapter for it
+
+@Autowired(required=false)
+@Qualifier
+
+@PathVariable
+
+@ModelAttribute
+
+<mvc:anotation-driven> - added in dispatcher-serv.xml
+
+	@Valid in controller before @model attribute
+
+	BindingResult in arg of the handling method
+		- helps to catch the errors in the input	
+		- br.hasErrors() 
+		-  if any error there then above method returns true
+			then redirect to same page and displahy the error msg
+		- error msg will be given in the pojo class
+
+	we have add a dependency jsr303 - javax.validation
+
+
+	validation criteria 
+
+	in pojo classes , we use
 	
+	@NotNull - Integer, @NotBlank , @NotEmpty - String 
+	@Size(min = 3, max = 20)
+	@Pattern.....
+	@Pattern(regexp=".+@.+\\.[a-z]+")
+	@Pattern(regexp="^[9,8,7,6].{10}")
+
+<dependency>
+    <groupId>javax.validation</groupId>
+    <artifactId>validation-api</artifactId>
+    <version>1.0.0.GA</version>
+</dependency>
+
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>4.3.1.Final</version>
+</dependency>	
 	
 
+<tx:anotation-driven>
+	
+	@Transactional
+
+@Entity
+@Bean
+@PropertySource
+@Configuration
+@ComponentScan
+
+
+Spring Form:
+	add taglib in jsp
+	modelattribute
+
+JSR 303 Validation
+JSR 349 Validation
+
+JSR 380 Validation - below
+
+<dependency>
+    <groupId>javax.validation</groupId>
+    <artifactId>validation-api</artifactId>
+    <version>2.0.0.Final</version>
+</dependency>
+
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.0.2.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator-annotation-processor</artifactId>
+    <version>6.0.2.Final</version>
+</dependency>
+
+below dependency is for displaying error msgs
+
+<dependency>
+    <groupId>javax.el</groupId>
+    <artifactId>javax.el-api</artifactId>
+    <version>3.0.0</version>
+</dependency>
+ 
+<dependency>
+    <groupId>org.glassfish.web</groupId>
+    <artifactId>javax.el</artifactId>
+    <version>2.2.6</version>
+</dependency>
+
+this version requires Java 8 or higher
+@NotEmpty,@NotNull â€“ validates that the property is not null or empty; 
+		can be applied to String, Collection, Map or Array values
+		use notNull specifically for Integer
+		
+@NotBlank â€“ checks text field for not null or whitespace
+@Positive and @PositiveOrZero â€“ number is  positive, or positive (incl 0)
+@Negative and @NegativeOrZero â€“ number is  negative, or negative (incl 0)
+@Past and @PastOrPresent â€“ checks date value is in the past or the past including the present; 
+@Future and @FutureOrPresent â€“ checks date value is in the future, or in the future including the present
+
+@Phone
+@Email
+@DateTimeFormat(pattern="MM/dd/yyyy")
+
+RECAP:
+======
+
+
+Maven dyn web app (web.xml & pom.xml)
+
+Web server 
+	Web Container (serv & Jsp - components)
+
+Spring IOC Container
+
+	types
+
+	components
+	life cycle
+Scope
+	
+Injection, DI
+
+done through CI,SI
+
+property injection
+obj requiring another obj - DI
+
+autowiring
+	
+internal dispatches - navigation
+
+
+	appln
+	
+	explicit call ===S1    S2    S3
+
+forward(),include() - internal dispatchers - req ,resp
+
+rd=req.getRequestDispatcher("S1");
+rd.forward(req,resp);
+
+resp.sendRedirect("home");
+
+explicit calls - redirection
+
+Security
+
+exposing data to the environment - REST Api (JSON & XML)
+
+connecting db 
+
+ORM
+caching
+
+Spring Boot
+
+Spring MicroServices
 
 
 
 
 
 
+==============================================================================================
 
+Spring jdbc
 
+===============================================================================================
+NOTE:
+======
+refer: https://www.logicbig.com/tutorials/java-ee-tutorial/bean-validation/predefined_constraints.html
 
+New built-in constraints (as seen in above content or LINK):
+@Email, @NotEmpty, @NotBlank, @Positive, @PositiveOrZero, @Negative, @NegativeOrZero,
+@PastOrPresent and @FutureOrPresent
+
+===============================================
+Inversion of Control (IoC) :
+
+Inversion of Control (IoC) is the mechanism to achieve loose-coupling between Objects 
+dependencies. To achieve loose coupling and dynamic binding of the objects at runtime, 
+the objects define their dependencies that are being injected by other assembler objects
+
+@SessionAttributes("employee")
+
+same name as ur key in mv.addObject method
+
+SessionStatus status 
+status.setComplete();
+
+==========================================================================================
+return "redirect:add/success";
+
+==============================================================================================
+Add
+
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+ 
+
+store label values in label.properties file
+
+display using 
+<spring:message code="lbl.name" text="Employee Name" />
+
+=======================================================================================
+using webjars in spring web mvc
+
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>bootstrap</artifactId>
+    <version>3.3.7-1</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>jquery</artifactId>
+    <version>3.1.1</version>
+</dependency>
+
+add locator if need to ignore version
+
+then add
+<mvc:resources mapping="/webjars/**" location="/webjars/"/>
+
+then use it in jsp
+
+bootstrap.min.css may not work---need to check
+
+you can add manually using CDN link
 
 
 

@@ -1,0 +1,11 @@
+1
+
+In your SpringContext.xml file, you use DefaultAnnotationHandlerMapping class (which was deprecated since Spring 3.2) to handle @RequestMapping annotation implicitly, which doesn't understand the new annotation like @GetMapping, @PostMapping...(which was introduced into Spring since version 4.3), so it ignores the new annotations. In order to use the new annotation, you should use RequestMappingHandlerMapping class. You can simply define this bean in your SpringContext.xml like this:
+
+<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+<!-- you also need to define an adapter, otherwise you will get a ServletException while handling the request -->
+<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+But the recommended way is to use the "MVC XML Namespace", it will do the job above for you. Add the following code into your SpringContext.xml (you should define the mvc namespace first):
+
+<mvc:annotation-driven/>
+Please see here for more details about this.
