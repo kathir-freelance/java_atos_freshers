@@ -1,0 +1,359 @@
+obj in jvm
+
+	Serialization
+DB - jdbc
+    jdbc template -	
+    	
+
+
+JPA (Hibernate)
+================
+JPA -standard for all orm tools
+
+JPA typically defines the metadata via annotations in the Java class. Alternatively via XML or a combination of both. A XML configuration overwrites the annotations.
+
+JPA implementations:
+
+Hibernate: 	The most advanced and widely used.
+
+		Pay attention for the classpath because a lot of libraries are used, 
+		especially when using JBoss. 
+
+		Supports JPA 2.1.
+
+LINQ
+NHibernate
+
+Toplink: Only supports the basic JPA specs. 
+	 (Oracle’s free version of the JPA implementation)
+
+EclipseLink: 	is based on TopLink, 
+		is the intended path forward for persistence for Oracle and TopLink. 
+		Supports JPA 2.1
+
+Apache OpenJPA: Best documentation but seems very buggy. 
+		Open source implementation for JPA. 
+		Supports JPA 2.0
+
+DataNucleus: Well documented, open source (Apache 2 license), is also a JDO provider.
+	     Supports JPA 2.1
+   	for  persistence layer behind  VMForce (salesforce) and Google app engine 
+
+ObjectDB: well documented
+
+CMobileCom JPA: light-weight JPA 2.1 implementation for both Java and Android.
+
+Other approaches are:
+
+Plain JDBC
+iBatis: The project moved to MyBatis (link)
+JDO - java data Objects (EJB)
+
+
+Mature project:
+		Most advanced
+		Well documented
+		HQL
+
+Useful Hibernate sub projects
+
+Hibernate tools: automatic generation of code and database generation
+Hibernate validation: bean specification capabilities. Integrates with JPA2
+Hibernate search: powerful full-text search on domain objects 
+
+Active community
+Big development community
+
+
+Alternative of ORM --->Apache Cayenne.
+
+
+<!DOCTYPE hibernate-configuration PUBLIC
+       "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+       "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+   <session-factory>
+       <!-- Database connection settings -->
+       <property name="connection.driver_class">org.h2.Driver</property>
+       <property name="connection.url">jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE</property>
+       <property name="connection.username">sa</property>
+       <property name="connection.password"/>
+       <!-- JDBC connection pool (use the built-in) -->
+       <property name="connection.pool_size">1</property>
+       <!-- SQL dialect -->
+       <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+       <!-- Disable the second-level cache -->
+       <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+       <!-- Echo all executed SQL to stdout -->
+       <property name="show_sql">true</property>
+       <!-- Drop and re-create the database schema on startup -->
+       <property name="hbm2ddl.auto">create</property>
+       <mapping resource="hibernate_example/hbm/Book.hbm.xml"/>
+   </session-factory>
+</hibernate-configuration>
+
+
+<!DOCTYPE hibernate-mapping PUBLIC
+     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+       "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="hibernate_example">
+   <class name="Book" table="BOOKS">
+       <id name="isbn" type="string"/>
+       <property name="title"/>
+       <property name="author"/>
+   </class>
+   <class name="Author" table="auth_details">
+       <id name="isbn" type="string"/>
+       <property name="title"/>
+       <property name="author"/>
+   </class>
+
+</hibernate-mapping>
+
+ final Configuration configuration = new Configuration().configure();
+       final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+       final SessionFactory factory = configuration.buildSessionFactory(builder.build());
+       final Session session = factory.openSession();
+       final Book book = new Book("93939398948 ", "Java 8", "Author");
+       session.beginTransaction();
+       session.save(book);
+       session.getTransaction().commit();
+       final List<Book> books = session.createCriteria(Book.class).list();
+       System.out.println("\n----\n");
+       System.out.println(MessageFormat.format("Storing {0} books in the database", books.size()));
+       for (final Book b : books) {
+           System.out.println(b);
+       }
+       System.out.println("\n----\n");
+       session.close();
+       factory.close();
+
+annotation chnages
+
+<!-- The mapping information of entities -->
+        <mapping class="hibernate_example.Book"/>
+
+@Temporal(TemporalType.DATE)
+ private Date published;
+
+
+http://www.tech-freaks.com/jsp-servlets/jboss-reverse-engineer-hibernate.html
+
+
+ORM
+
+	eclipse link, toplink,hib.....
+
+	JPA - java persistance api
+
+	Hibernate- open source 
+	
+
+	1000 pdts - select -----cache
+
+	20000lakh users
+
+ORM - Object Relational Mapping
+
+	Hibernate 
+
+	@Entity--- hibernate and also JPA
+
+
+	RDBMS -	table
+		column
+		
+		datatypes
+		pk
+		fk
+		relations
+
+	java 
+
+		class 
+		variables
+		methods
+		hashcode & equals
+
+		inheritance
+
+	        
+	table 		dept,emp,addr
+
+	empname
+	empid
+	salary
+	dept
+	branch
+	city
+
+	
+	@Entity
+	class Emp implements Serializable
+	{
+		Emp(){}
+		Emp(arg1,arg2...) - optional
+		
+		@Id
+		@GeneratedValue(4types)
+		private int empId;
+		int getempId()  //will throws excep
+		 {
+			return this.empId;
+		}
+		getters / setters
+
+		@Column("emp_name")
+		private String empName;
+		g/s
+	}
+	
+	
+
+hibernate.cfg.xml 
+
+	<hibernate-configuration>
+
+	hbm2ddl.auto" - create,drop-create,update
+
+	 <mapping resource="hibernate_example/hbm/Book.hbm.xml"/>	
+
+	instead we use below
+
+        <mapping class="hibernate_example.Book"/>
+        <mapping class="hibernate_example.Author"/>
+
+	
+	ds- url,un,pwd,driver,dialect
+    
+   StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
+			.applySettings(configuration.getProperties());
+
+       SessionFactory factory = configuration.buildSessionFactory(builder.build());
+  
+   Session session = factory.openSession();
+
+	interacts with the DB
+   
+
+
+I need to know, whether the Hibernate's session is thread safe or not.
+
+ But obvious a new session is attached to every thread for execution.
+ But my question is if in one thread I have updated some value of an entity,
+ so will that be reflected in other thread during same time execution?
+
+My problem is when I fire update from two threads sequentially, the value is updated properly
+ but when I fire the update almost altogether then it fails.
+
+
+
+It is not intended that implementors be threadsafe. 
+Instead each thread/transaction should obtain its own instance from a SessionFactory.
+
+Even with this in mind, your behaviour might still not be what you expect,
+because transactions come into play. 
+You will have to set a proper transaction isolation level. 
+See the configuration guide, hibernate.connection.isolation property.
+
+
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.10.Final</version>
+		</dependency>
+		
+	</dependencies>
+
+in <build> tag under <plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.3</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+
+
+create the hibernate.cfg.xml in src folder
+
+o/p :
+Hibernate: create table Employee (empId integer not null, desig varchar(255), 
+employee_name varchar(255), primary key (empId))
+
+o/p :
+Hibernate: insert into Employee (desig, employee_name, empId) values (?, ?, ?)
+
+1001
+
+
+Lifecycle of entity:
+
+
+	Doesnt exist
+	
+	Transient state
+
+	Managed State ---------------DB
+
+	Detached state
+
+	removed state
+	
+
+Managed State :
+
+		save , saveOrUpdate(),find()
+
+	memory - Runtime Environment -> Persistent Context - has unique identity(persitence id)
+
+	Emp e1=new Emp(); //Transient
+	Emp e2=new Emp(); //Transient
+	Emp e3=new Emp(); //Transient
+	Admin ad1=new Admin();
+
+
+	session.save(e1); //e1 in managed state
+	session.save(e2); //e2 in managed state
+	
+	e1 --------------pers id-----------------DB(row1)
+	e2 --------------pers id-----------------DB(row2)
+
+The persistence context is the collection of all the managed objects  of session
+
+Hibernate: insert into Employee (desig, employee_name, empId) values (?, ?, ?)
+Hibernate: update Employee set desig=?, employee_name=? where empId=?
+
+
+Hibernate: insert into Employee (desig, employee_name, empId) values (?, ?, ?)
+Hibernate: update Employee set desig=?, employee_name=? where empId=?
+
+Employee [empId=1006, empname=stella, desig=Sr mgr grade 1]
+
+
+detached State:
+
+	 evict() ?
+Hibernate: select employee0_.empId as empId1_0_0_, employee0_.desig as desig2_0_0_, employee0_.employee_name as employee3_0_0_ from Employee employee0_ where employee0_.empId=?
+Employee [empId=1005, empname=Dell, desig=updated]
+Hibernate: select employee_.empId, employee_.desig as desig2_0_, employee_.employee_name as employee3_0_ from Employee employee_ where employee_.empId=?
+Hibernate: update Employee set desig=?, employee_name=? where empId=?
+
+forr update
+Hibernate: select employee0_.empId as empId1_0_0_, employee0_.desig as desig2_0_0_, employee0_.employee_name as employee3_0_0_ from Employee employee0_ where employee0_.empId=?
+Employee [empId=1005, empname=Dell, desig=updated]
+Hibernate: update Employee set desig=?, employee_name=? where empId=?
+
+try to do it in layered arch it ll work
+https://stackoverflow.com/questions/11329168/hibernate-doesnt-issue-update-after-flush
+
+removed :
+
+	delete(Obj)
+
