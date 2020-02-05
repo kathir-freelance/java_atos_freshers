@@ -1,0 +1,674 @@
+Hibernate
+
+ORM
+JNDI
+problems in traditional jdbc coding 
+difference between hibernate and spring jdbcTemplate
+
+what is JPA
+difference between jpaHibernate and hibernate
+
+different ORM tools available in market
+
+data types used in different DB
+
+Oracle -
+MySql -MS
+MS Sql - MS
+DB2  -IBM
+
+Cassandra
+MarioDB
+
+SQLite
+
+Derby
+H2
+
+MongoDB
+
+Hibernate notes
+=================
+https://thoughts-on-java.org/5-things-you-need-to-know-when-using-hibernate-with-mysql/
+
+Maven dependancy needed:
+-------------------------
+
+<dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-core</artifactId>
+   <version>4.3.6.Final</version>
+</dependency>
+
+Support dependancy :
+
+	Hibernate proxy model:
+	
+	<dependency>
+   <groupId>org.javassist</groupId>
+   <artifactId>javassist</artifactId>
+   <version>3.18.2-GA</version>
+	</dependency>
+
+Then Db dependancy
+
+Then DataSource - Dbcp or dbcp2 or cp30
+
+Hibernate: drop table if exists PRODUCTS
+Hibernate: create table PRODUCTS (pid integer not null, pname varchar(255), price double precision, primary key (pid))
+
+
+
+
+
+Import the packages :
+
+import org.hibernate.*;
+import org.hibernate.cfg.*;
+
+Then 
+create a configuration obj and read xml for config
+
+Configuration cf = new Configuration();
+cf.configure(“hibernate.cfg.xml”);
+
+
+Then using this config we can create this SessionFactory 
+
+SessionFactory sf =  cf.buildSessionFactory();
+
+
+SessionFactory is an interface
+
+Using SessionFactory we can create Session 
+
+Session session = sf.openSession();
+
+we can manipulate data by using methods like save,update,load,delete......
+
+we can control the transaction using 
+
+Transaction tx = session.beginTransaction();
+and tx.commit(); or tx.rollback();
+
+
+===================================================================
+In Hibernate, it was often to build a SessionFactoryand pull out a Session as follows:
+
+SessionFactory sf=new Configuration().configure().buildSessionFactory();
+Session session = sf.openSession();
+ 
+
+	However, since Hibernate 4.x, this approach is deprecated. According to Hibernate 4 API docs, the Configuration class’ buildSessionFactory() method is deprecated and it recommends developers to use the buildSessionFactory(ServiceRegistry) instead. 
+
+	Here is the new recommended code snippet that builds the SessionFactorybased on a ServiceRegistry and obtains the Session:
+
+
+Configuration configuration = new Configuration().configure();
+ServiceRegistryBuilder registry = new ServiceRegistryBuilder();
+registry.applySettings(configuration.getProperties());
+ServiceRegistry serviceRegistry = registry.buildServiceRegistry();
+SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+ 
+Session session = sessionFactory.openSession();
+
+
+===================================================================================
+* Note:
+---------
+The Configuration class’ configure() method loads mappings and properties from the convention resource file hibernate.cfg.xml which should be present in the classpath. 
+===================================================================================
+The above code again got modified:
+-----------------------------------
+
+private static SessionFactory sessionFactory;
+     
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            // loads configuration and mappings
+            Configuration configuration = new Configuration().configure();
+            ServiceRegistry serviceRegistry
+                = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
+             
+            // builds a session factory from the service registry
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);           
+        }
+
+Usefull links & codes :
+--------------------------
+
+https://docs.jboss.org/hibernate/core/4.2/quickstart/en-US/html/ch02.html#hibernate-gsg-tutorial-basic-config
+
+@Entity
+@Table(name = "author", schema = "bookstore")
+public class Author { … }	
+
+
+<hibernate-mapping
+         schema="schemaName"                          (1)
+         catalog="catalogName"                        (2)
+         default-cascade="cascade_style"              (3)
+         default-access="field|property|ClassName"    (4)
+         default-lazy="true|false"                    (5)
+         auto-import="true|false"                     (6)
+         package="package.name"                       (7) />
+
+1	schema (optional): the name of a database schema.
+2	catalog (optional): the name of a database catalog.
+3	default-cascade (optional - defaults to none): a default cascade style.
+4	default-access (optional - defaults to property): the strategy Hibernate should use for accessing all properties. It can be a custom implementation of PropertyAccessor.
+5	default-lazy (optional - defaults to true): the default value for unspecified lazy attributes of class and collection mappings.
+6	auto-import (optional - defaults to true): specifies whether we can use unqualified class names of classes in this mapping in the query language.
+7	package (optional): specifies a package prefix to use for unqualified class names in the mapping document.
+
+
+
+If we use annotations instead of xml then use below in hib.cfg.xml
+
+<Mapping class="full qualified name"/>
+
+mapping tag instructs hibernate to perform mapping for classes refereed by class attribute.
+==============================================================================
+NOTE : for every pojo class a table to be created we use the above line 
+==============================================================================
+
+
+load and get :
+
+When you call session.load() method, it will always return a “proxy” object,  
+whats the meaning of proxy object ?
+
+Proxy means, hibernate will prepare some fake object with given identifier value in the memory without hitting the database, for example if we call session.load(Student.class,new Integer(107));  
+
+> hibernate will create one fake Student object [row] in the memory with id 107, but remaining properties of Student class will not even be initialized.
+
+It will hit the database only when we try to retrieve the other properties of Student object i mean stdName, stdCountry.  If we call s2.getStdName() then hibernate will hit the database and search the row with student id 107 and retrieve the values, if object [row] not found in the database it will throws ObjectNotFoundException.,
+
+session.load()
+It will always return a “proxy” (Hibernate term) without hitting the database. In Hibernate, proxy is an object with the given identifier value, its properties are not initialized yet, it just look like a temporary fake object.
+If no row found , it will throws an ObjectNotFoundException.
+2. session.get()
+It always hit the database and return the real object, an object that represent the database row, not proxy.
+If no row found , it return null.
+
+
+for id column - use identity as mysql supports Auto_Increment
+
+sequence - @Sequence generator
+
+
+Question;
+
+is it mandatory to call flush method after update in hibernate
+
+
+Obtain the value specified (if any) for the first row to be returned from the query results;
+zero-based. Used,in conjunction with getMaxResults() in "paginated queries". No value specified means the first resultis returned. Zero and negative numbers are the same as no setting.
+
+CREATE TABLE employees (
+    emp_no      INT             NOT NULL,
+    birth_date  DATE            NOT NULL,
+    first_name  VARCHAR(14)     NOT NULL,
+    last_name   VARCHAR(16)     NOT NULL,
+    gender      ENUM ('M','F')  NOT NULL,    
+    hire_date   DATE            NOT NULL,
+    PRIMARY KEY (emp_no)
+);
+
+
+
+Apply Restrictions on table:
+==============================
+Criteria API:
+
+	allows you to build up a criteria query object programmatically;
+	used for searches mostly
+
+To create criteria:
+
+	Criteria crit = session.createCriteria(Product.class);
+	List<Product> results = crit.list();
+
+
+
+Criteria crit = session.createCriteria(Product.class);
+crit.add(Restrictions.eq("description","fruit"));
+List<Product> results = crit.list();
+
+not equals:
+
+crit.add(Restrictions.ne("description","Mouse"));
+
+Like and ilike:
+=================
+Criteria crit = session.createCriteria(Product.class);
+crit.add(Restrictions.like("name","Mou%",MatchMode.ANYWHERE));
+List<Product> results = crit.list();
+
+Matchmethod:
+
+ANYWHERE: Anyplace in the string
+END: The end of the string
+EXACT: An exact match
+START: The beginning of the string
+
+Restrictions.isNull() and Restrictions.isNotNull() example
+
+Criteria crit = session.createCriteria(Product.class);
+crit.add(Restrictions.isNull("name"));
+List<Product> results = crit.list();
+
+Criteria crit = session.createCriteria(Product.class);
+crit.add(Restrictions.lt("price",10.0));
+crit.add(Restrictions.ilike("description","mouse", MatchMode.ANYWHERE));
+List<Product> results = crit.list();
+
+Combining Two or More Criteria Examples
+
+
+Combining 2 or more criteria:
+==============================
+
+LogicalExpression orExp = Restrictions.or(price,name);
+
+critobj.uniquResults()
+
+disjunction: - or 
+=============
+Criteria crit = session.createCriteria(Product.class);
+Criterion priceLessThan = Restrictions.lt("price", 10.0);
+Criterion des=Restrictions.ilike("description","mouse", MatchMode.ANYWHERE));
+
+Disjunction disjunction = Restrictions.disjunction();
+disjunction.add(priceLessThan);
+disjunction.add(des);
+crit.add(disjunction);
+List results = crit.list();
+
+conjunction:
+Conjunction cjunction = Restrictions.conjunction();
+
+
+
+paging:
+
+Criteria crit = session.createCriteria(Product.class);
+crit.setFirstResult(1);
+crit.setMaxResults(20);
+List<Product> results = crit.list();
+
+Distinct Result:
+
+Criteria crit = session.createCriteria(Product.class);
+Criterion price = Restrictions.gt("price",new Double(25.0));
+crit.setResultTransformer( DistinctRootEntityResultTransformer.INSTANCE )
+List<Product> results = crit.list();
+
+Hibernate criteria – sort query :
+
+S F  Where Grouby Having Order by
+
+Criteria crit = session.createCriteria(Product.class);
+crit.add(Restrictions.gt("price",10.0));
+crit.addOrder(Order.desc("price"));
+List<Product> results = crit.list();
+
+Crietria c=session.createCriteria(Emp.class);  
+c.addOrder(Order.asc("salary"));  
+List list=c.list();  
+
+projection:
+
+Criteria c=session.createCriteria(Emp.class);  
+c.setProjection(Projections.property("name"));  
+List list=c.list();  
+
+multiple aggregate functions:
+
+Criteria crit = session.createCriteria(Product.class);
+ProjectionList projList = Projections.projectionList();
+projList.add(Projections.max("price"));
+projList.add(Projections.min("price"));
+
+
+QBE :
+====
+Criteria crit = session.createCriteria(Supplier.class);
+Supplier supplier = new Supplier();
+supplier.setName("MegaInc");//searches with this
+crit.add(Example.create(supplier));
+List results = crit.list();
+
+Detached queries:
+
+DetachedCriteria query = DetachedCriteria.forClass(Cat.class)
+    .add( Property.forName("sex").eq('F') );
+  //setProjection( Property.forName("weight").avg() ); 
+Session session = ....;
+Transaction txn = session.beginTransaction();
+List results = query.getExecutableCriteria(session).setMaxResults(100).list();
+txn.commit();
+session.close();
+
+Named Query:
+
+Their syntax is checked when the session factory is created, making the application fail fast in case of an error
+
+increase re-usability
+
+Criteria :
+
+Hibernate Criteria API is a more object oriented and elegant alternative to
+Hibernate Query Language (HQL)
+
+Criteria c=session.createCriteria(Product.class);
+c.setProjection(Projections.projectionList().add(Projections.property("proName"),"proName").add(Projections.property("proDes"),"proDes")).setResultTransformer(Transformers.aliasToBean(Product.class));
+c.addOrder(Order.asc("proName"));
+System.out.println(c.list());
+
+
+create table Account( acc_id int primary key,acc_holder_name varchar(20),balance float,mobile varchar(12),open_balance float);
+
+insert into Account(1011,'gowtham',2000,'7867987767',8000);
+insert into Account(1012,'AAA',5000,'6867987345',78000);
+insert into Account(1031,'Anish',2000,'8897987727',68000);
+insert into Account(1121,'Ajit',10000,'9845687763',25000);
+insert into Account(2015,'john',2500,'9897981237',10000);
+insert into Account(4011,'allen',90000,'9237981234',18000);
+insert into Account(6061,'kate',2050,'9317987767',80000);
+insert into Account(9081,'girish',6000,'9997487567',98000);
+insert into Account(1111,'rathulya',2000,'9837922332',88000);
+
+ct.setProjection(Projections.property("accHolderName"));
+		ct.setProjection(Projections.property("openingBalance"));
+
+create table DematAccount- noofshares extends Account
+create table SavingsAccount - interestRate extends Account
+create table Account - id ,holderName
+
+account
+
+id, name,rate,share
+
+
+hibernate inheritance mapping 
+
+Hibernate supports the three basic inheritance mapping strategy:
+
+	1. table per class hierarchy- singletable -<subclas>
+
+	2. table per subclass - joined, pkjoincolumn - <joined-subclass>
+
+	3. table per concrete class -table per class - <union-subclass>
+	
+
+1. table per class hierarchy
+	
+	* An entire class hierarchy can be mapped to a single table.
+	* includes columns for all properties of all classes
+	* concrete subclass  is differentiated by usinga discriminator column
+
+Hibernate: create table Account (DTYPE varchar(31) not null, accNum integer not null,
+	 name varchar(255), shares integer, interestRate float, primary key (accNum))
+Hibernate: insert into Account (name, DTYPE, accNum) values (?, 'Account', ?)
+Hibernate: insert into Account (name, interestRate, DTYPE, accNum) values (?, ?, 'SavingsAccount', ?)
+Hibernate: insert into Account (name, shares, DTYPE, accNum) values (?, ?, 'DematAccount', ?)
+
+
+dtype     	accNum     shares      interestRates
+DematAccount	1001		1	null
+SavingsAccount   1002   	null	8.8
+
+
+
+
+
+This mapping strategy is also available in JPA, as SINGLE_TABLE:
+
+
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+public class Plane { ... }
+
+in XMl -> <subclass/>
+
+table per subclass:
+=====================
+
+Each subclass will have its own table. 
+sub classes will have PK of base table
+
+uses <joined=subclass> in xml
+
+@Entity @Table(name="CATS")
+@Inheritance(strategy=InheritanceType.JOINED)
+public class Cat implements Serializable { 
+    @Id @GeneratedValue(generator="cat-uuid") 
+    @GenericGenerator(name="cat-uuid", strategy="uuid")
+    String getId() { return id; }
+
+    ...
+}
+
+@Entity @Table(name="DOMESTIC_CATS")
+@PrimaryKeyJoinColumn(name="CAT")
+@JoinColumn
+public class DomesticCat extends Cat { 
+    public String getName() { return name; }
+}            
+Hibernate: create table DematAccount (shares integer not null, acc_numb integer not null, primary key (acc_numb))
+Hibernate: create table SavingsAccount (interestRate float not null, account_number integer not null, primary key (account_number))
+Hibernate: alter table DematAccount add constraint FK_nbt9ybp2slkimuwfauxq7mprg foreign key (acc_numb) references Account (accNum)
+Hibernate: alter table SavingsAccount add constraint FK_ulnih71n1c5ssgygpkwwsby5 foreign key (account_number) references Account (accNum)
+
+
+table per concrete class
+==========================
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Flight implements Serializable { ... }    
+
+Hibernate: create table Account (accNum integer not null, name varchar(255), primary key (accNum))
+Hibernate: create table DematAccount (accNum integer not null, name varchar(255), shares integer not null, primary key (accNum))
+Hibernate: create table SavingsAccount (accNum integer not null, name varchar(255), interestRate float not null, primary key (accNum))
+
+
+
+
+
+Mapping in singeplace:
+=======================
+@Entity
+@Table(name="MainCat")
+@SecondaryTables({
+    @SecondaryTable(name="Cat1", pkJoinColumns={
+        @PrimaryKeyJoinColumn(name="cat_id", referencedColumnName="id")
+    ),
+    @SecondaryTable(name="Cat2", uniqueConstraints={@UniqueConstraint(columnNames={"storyPart2"})})
+})
+public class Cat implements Serializable {}
+=============================================================
+@Entity
+@Table(name="MainCat")
+@SecondaryTable(name="Cat1")
+@org.hibernate.annotations.Table(
+   appliesTo="Cat1",
+   fetch=FetchMode.SELECT,
+   optional=true)
+public class Cat implements Serializable {}
+
+----Embeddable and embedded
+
+Customer    Name-first_name,last_name,initial , address--street,pin,state....
+Employee
+Supplier
+Hibernate: create table Customer (custid integer not null, fName varchar(255), lName varchar(255), primary key (custid))
+Hibernate: insert into Customer (fName, lName, custid) values (?, ?, ?)
+
+
+
+-- cardinality -
+
+has - a
+	@one to one -------uni /bi
+
+	CUSTOMER HAS AN ADDRESS
+
+	CUSTOMER HAS ACCOUNT
+
+	one to many / many to one
+	many to many
+
+
+--1st level cache - session
+-- 2nd level cache
+
+https://www.concretepage.com/hibernate/example-embeddable-embedded-hibernate-annotation
+
+http://mrbool.com/how-to-work-with-projection-in-hibernate-criteria-query-hcq/26369
+
+https://www.devglan.com/hibernate/hibernate-inheritance-example
+https://docs.jboss.org/hibernate/orm/4.0/manual/en-US/html/mapping.html#d0e7071
+
+https://what-when-how.com/hibernate/inheritance-and-custom-types-hibernate/
+
+https://www.mkyong.com/hibernate/hibernate-one-to-one-relationship-example-annotation/
+
+https://stackoverflow.com/questions/23025030/hibernate-criteria-vs-named-query
+
+https://www.baeldung.com/hibernate-pagination
+
+https://docs.jboss.org/hibernate/orm/3.3/reference/en/html/querycriteria.html
+
+http://myjourneyonjava.blogspot.com/2015/01/creating-custom-generator-class-in.html
+
+https://www.tutorialspoint.com/hibernate/hibernate_criteria_queries.htm
+
+https://www.codejava.net/frameworks/hibernate/java-hibernate-reverse-engineering-tutorial-with-eclipse-and-mysql
+
+https://docs.jelastic.com/jelastic-db-hibernate
+
+https://howtodoinjava.com/hibernate/hibernate-criteria-queries-tutorial/#paging
+
+
+
+
+Cahcing in hibernate:
+
+reducing database queries and better performance
+
+Types of caching strategy:
+
+First-level cache :
+	
+is associated with the Session object, while second-level cache is associated with the SessionFactory object. By default, Hibernate uses first-level cache on a per-transaction basis. Hibernate uses this cache mainly to reduce the number of SQL queries it needs to generate within a given transaction.
+different types for caching:
+
+
+Second-level cache:
+
+Hibernate always tries to first retrieve objects from the session and if this fails it tries to retrieve them from the second-level cache. If this fails again, the objects are directly loaded from the database. Hibernate’s static initialize() method, which populates a proxy object, will attempt to hit the second-level cache before going to the database. The Hibernate class provides static methods for manipulation of proxies
+
+Query cache
+
+The query cache is responsible for caching the results and to be more precise the keys of the objects returned by queries.
+
+	1. Read
+	2. Read Write
+	3. Nonrestricted RW
+	4. Transactional
+
+EHCache supports all the above cache strategies
+
+Add jar ehcache-core and hib-ehcache
+
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-ehcache</artifactId>
+    <version>4.3.8.Final</version>
+</dependency>
+<dependency>
+    <groupId>net.sf.ehcache</groupId>
+    <artifactId>ehcache-core</artifactId>
+    <version>2.6.10</version>
+</dependency>
+
+
+add sl4j and log4j 
+
+in entity class along with other annotations add this
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY,region="accReagion")
+
+In hib config.xml:
+
+	<property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.region.factory_class">
+			org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property> <!-- EhCacheRegionFactory -->
+		<property name="hibernate.cache.use_query_cache">true</property>
+<!-- if need to override<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
+ -->
+
+
+By default, Ehcache will create separate cache regions for each entity that you configure for caching.
+
+
+in ehcache.xml - thisoverrides default config
+<cache
+    name="com.ct.Employee"
+    maxElementsInMemory="1000"
+    eternal="false"
+    timeToIdleSeconds="100"
+    timeToLiveSeconds="400"
+    overflowToDisk="true"/>
+
+In the above code:
+ 
+if eternal="true" then we should not write timeToIdealSeconds, timeToLiveSeconds.
+
+timetoIdlesecond:
+deleted from the global cache if time is exceeds more than timeToIdealSeconds value.
+
+timeToLiveSeconds:
+time specified timeToLiveSeconds, then it will be removed from the global cache
+
+If you need to cache query - add
+in hib config:
+<property key="hibernate.cache.use_query_cache">true</property>
+
+also enable L2 cache for  qry cache to work
+
+
+
+Cleaning cache :
+
+L1 cache communicates with the L2 cache and this communicates with the database.
+
+	 Session searches for the L1 cache which, in turn, searches the L2 cache which in turn returns the data or hits the database to make a search. 
+
+	both the L1 cache and the L2 cache are updated, when it hits DB
+
+When an object does not exist in L1 cache but there is in the L2 cache, this is replicated to the L1 cache, avoiding a query to the L2 cache. 
+
+what happens if we call session.evict(object)
+
+ The L1 cache would be clean, but not L2 cache. Then the same would be replicated again from the L2 cache to the L1, avoiding the query to the database. In this case we would have to call the "evict" of the SessionFactory.
+
+use evictEntity(entityName) [can retrieve from metadata - sf.getAllClassMetaData()]
+
+the above line cleans L2 cache
+
+
+@NamedQueries({ @NamedQuery(name = "@HQL_GET_ALL_ADDRESS", 
+			query = "from Address") })
+
+
+Read more: http://mrbool.com/how-to-use-hibernate-query-cache/33439#ixzz64fU6Yfpa
+
+
+
+Advanced :
+https://www.codesenior.com/en/tutorial/Hibernate-4-Second-Level-Caching-With-EHCache
+https://stackoverflow.com/questions/32763864/second-level-cache-perfomance
+https://stackoverflow.com/questions/23454133/second-level-cache-vs-query-cache-vs-collection-cache
