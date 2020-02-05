@@ -1,0 +1,164 @@
+package com.cts.hibernate.HibernateBasics;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.cts.hibernate.model.OrderItem;
+
+public class App {
+	public static void main(String[] args) {
+		Configuration configuration = new Configuration().configure();
+		SessionFactory sf = configuration.buildSessionFactory();
+		Session session = sf.openSession();
+		
+		Query q=session.getNamedQuery("retrieveCount");
+		//q.setFetchSize(3);
+	//	System.out.println(q.list());
+		//refresh - changes in db will
+		Query q1=session.getNamedQuery("retrieveall");
+		//q1.setFirstResult(2);
+		//q1.setFetchSize(2);
+		System.out.println(q1.list());
+		//Query q=session.createQuery("retrieveall");
+		//Query q=session.createSQLQuery("retrieveall");
+		//System.out.println(q.list());
+		
+		/*Query q=session.createSQLQuery("select * from user_detail");//native qry execution
+		System.out.println(q.list());
+		*/
+		/*
+		String hql = "from OrderItem o where o.orderId =?";
+		Query q = session.createQuery(hql);
+		q.setParameter(0, 5);
+		List result = q.list();
+		System.out.println(result);*/
+		/*
+		 * OrderItem order=new OrderItem(); order.setOrderId(6); String hql =
+		 * "from OrderItem o where o.orderId = :orderId"; List result =
+		 * session.createQuery(hql).setProperties(order).list();
+		 * System.out.println(result);
+		 */
+		/*
+		 * Query query = session.createQuery(
+		 * "from OrderItem o where o.id = :id "); query.setParameter("id", 111);
+		 * List<OrderItem> list=query.list(); System.out.println(list);
+		 */
+		/*
+		 * String qry="select order.productCount FROM OrderItem order"; Query
+		 * q=session.createQuery(qry); List<OrderItem> ll=q.list();//will not
+		 * class cast exception System.out.println(ll);
+		 */
+		/*
+		 * OrderItem order=new OrderItem(111,5,6,8,77,788.7f);
+		 * session.beginTransaction(); session.save(order);
+		 * session.getTransaction().commit();
+		 */
+		session.close();
+	}
+}
+
+
+entity class
+================
+
+package com.cts.hibernate.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "order_item")
+@NamedQueries(value = { @NamedQuery(name = "retrieveall", query = "FROM OrderItem"),
+		@NamedQuery(name = "retrieveCount", query = "SELECT count(*) FROM OrderItem") })
+public class OrderItem implements Serializable {
+	@Id // (not null & unique)
+	private int id;
+	@Column(name = "order_id")
+	private int orderId;
+	private int total;
+	@Column(name = "product_id")
+	private int productId;
+	@Column(name = "product_count")
+	private int productCount;
+	@Column(name = "buying_price")
+	private float buyingPrice;
+
+	public OrderItem() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public int getProductCount() {
+		return productCount;
+	}
+
+	public void setProductCount(int productCount) {
+		this.productCount = productCount;
+	}
+
+	public float getBuyingPrice() {
+		return buyingPrice;
+	}
+
+	public void setBuyingPrice(float buyingPrice) {
+		this.buyingPrice = buyingPrice;
+	}
+
+	public OrderItem(int id, int orderId, int total, int productId, int productCount, float buyingPrice) {
+		super();
+		this.id = id;
+		this.orderId = orderId;
+		this.total = total;
+		this.productId = productId;
+		this.productCount = productCount;
+		this.buyingPrice = buyingPrice;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderItem [id=" + id + ", orderId=" + orderId + ", total=" + total + ", productId=" + productId
+				+ ", productCount=" + productCount + ", buyingPrice=" + buyingPrice + "]";
+	}
+
+}
