@@ -1,0 +1,198 @@
+Svn - repo
+
+checkout and checkin
+
+file_v1
+
+file_v2 
+
+Git - vcs tool or DVCS
+
+linus torvald - linux
+
+* track changes in files and co-ordinate work among multiple ppl
+
+* used for SCM
+
+* competitors - Perforce, mercurial
+
+git commands
+
+git hub  
+git lab
+bit bucket
+
+commands are divided into 4 types
+
+create repo
+
+making changes
+
+||el dev
+
+sync repo
+
+is the repo existing already ?
+https://github.com/kathir-freelance/java_cts_freshers.git
+
+git clone https://github.com/kathir-freelance/java_cts_freshers.git
+
+Local
+
+
+proj
+
+central repo - github
+
+
+
+
+step1:
+
+mkdir devop
+create a file a.txt
+	add content into it
+create a file b.txt
+	add content into it
+
+cd devop
+>ls = lists all my files
+> git init - mk this as git repo
+> git status  - gives a tracking report
+
+> git add . or filename.txt
+
+	git add a.txt b.txt
+	
+	moves to stage area
+> git commit -m "commit msg"
+
+	* will get a commit id after succeessfull
+	commit
+	* files are made permanent in local repo
+
+create one more file 
+
+> git status
+	says 1 file un tracked
+
+try opening file2.txt 
+
+>git status
+
+	says 1 file modified and 1 untracked
+	now u have to again move to statging area for file2.txt  also
+
+	
+create a account  in github - host manager (free)
+
+login if u have already an account. create a new repo, then
+
+> git remote add origin "git url link.git"
+> git push or git push origin master
+
+this above command may ask for Un and Pwd 
+
+clone an existing repo
+
+>git clone to get it in local repo 
+
+	creates  a loc repo of an existing repo in github
+
+remove file from staging:
+	
+	git reset HEAD - all file
+
+	git reset HEAD filename
+
+> git log - gives the commit record done till date
+
+git pull :
+
+	retrieve changes happened in the central repo (i.e by other developers)
+
+branching :
+	
+	creating a branch
+
+		git branch branch_name
+
+navigate to branch using below command:
+
+		git checkout 
+
+create branch and navigate to it using below command:
+
+		git checkout -b branchname - creates a branch and move to the branch
+
+deleting a branch:
+
+	git branch -d branch_name
+	
+Let’s go through a simple example of branching and merging with a workflow that you might 
+use in the real world. You’ll follow these steps:
+
+	Do some work on a website.
+
+	Create a branch for a new user story you’re working on.
+
+	Do some work in that branch.
+
+At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+	
+	Switch to your production branch.
+
+	Create a branch to add the hotfix.
+
+	After it’s tested, merge the hotfix branch, and push to production.
+
+	Switch back to your original user story and continue working.
+
+
+git branch "mybranch1"
+
+git checkout mybranch1
+
+create 2 files in it
+
+> git add .
+
+> git status
+
+> git commit "added to branch"
+
+> git push origin branchname
+
+> git checkout master
+
+
+
+git merge
+if u have modified the same file in master branch 
+
+
+
+git stash
+git revert
+git diff - conflict checking, comparing branches
+
+git config 
+
+git tag 
+
+git cat-file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
