@@ -1,0 +1,42 @@
+
+Controller
+
+	HomeController
+	{		
+		@AutoWired
+		@Qualifier("cs")
+		ICustomerService normCustServ;//it injects then obj of class implementing automatically
+		
+		@AutoWired
+		@Qualifier("pcs")
+		ICustomerService premCustServ;//it injects then obj of class implementing automatically
+
+
+	}
+
+Service
+
+	interface ICustomerService
+	{
+//		abstract 
+		public boolean addCustomer(Customer p);
+		public boolean deleteCustomer(int id);
+	}
+	
+	@Sevice("cs")
+	class CustomerServiceImpl implements ICustomerService
+	{	
+		@AutoWired
+		CustomerDao dao;
+	}
+	@Sevice("pcs")
+	class PremiumCustomerServiceImpl implements ICustomerService
+	{	
+		@AutoWired
+		CustomerDao dao;
+	}
+
+Dao
+	@Repository
+	CustomerDao
+	{}
