@@ -271,3 +271,67 @@ var dept = { name: "It", loc: “chn”, did: "10" };
 var d = dept; // Assign person variable to a new variable
  d.name = "Harry"; 
 document.write(dept.name); // Prints: Harry document.write(d.name); // Prints: Harry
+
+
+ 
+	1==='1' //checks the content and type
+	1=='1'//checks the content 
+
+	var t=parseInt('12a');
+	console.log(t);
+
+	var str = "The quick brown fox jumps over the lazy dog.";
+	document.write(str.slice(-28, -19)); // Prints: fox jumps
+	document.write(str.slice(31));
+
+	function say()
+	{
+		console.log('var value of a in say :: '+a); 
+	}	
+	function sayHello()
+	{
+		console.log('var value of a in say :: '+a); 
+	}
+	function name()
+	{
+		let a=9;//var a=9;
+		say();
+
+		{
+		let a=900;
+		console.log('let var a value :: '+a);
+		}
+		console.log('var value of a :: '+a);
+	}
+
+	name();
+	
+	var arr=[2,3,4,4];
+	alert(arr);
+
+
+var person={k:v,k:v};
+
+var str = '({"firstName":"ajay","lastName":"kumar"})';
+
+var person={
+		name:'ajay',
+		dept:'IT',
+		getData:function()
+		{
+		console.log('name : '+this.name);
+		console.log('dept : '+this.dept);
+		}
+
+	}
+
+
+function Car(){
+	name='xxxx',
+	capacity=23
+}
+
+var c1=new Car();
+var c2=new Car();
+Object.getOwnPropertyDescriptor(c1,"fueltype");
+Object.defineProperty(c1,'fuelType', { writable:false} );
