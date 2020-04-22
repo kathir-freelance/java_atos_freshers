@@ -1,0 +1,345 @@
+public class Excep1
+{  
+    public static void main(String[] args) 
+    {
+        try 
+        { 
+            return; 
+        } 
+        finally 
+        {
+            System.out.println( "Finally" ); 
+        } 
+    } 
+}
+--------------------------------------------------------------
+try 
+{ 
+    int x = 0; 
+    int y = 5 / x; 
+} 
+catch (Exception e) 
+{
+    System.out.println("Exception"); 
+} 
+catch (ArithmeticException ae) 
+{
+    System.out.println(" Arithmetic Exception"); 
+} 
+System.out.println("finished");
+
+---------------------------------------------------------------
+ try 
+        {
+            errorMethod();  
+            System.out.print("A"); 
+        }  
+        catch (Exception ex) 
+        {
+            System.out.print("B");  
+        } 
+        finally 
+        {
+            System.out.print("C"); 
+        } 
+        System.out.print("D"); 
+    }  
+    public static void errorMethod() 
+    {
+        throw new Error(); /* Line 22 */
+    } 
+==================================================================
+public static void main(String [] args) 
+    {
+        try 
+        {
+            errorMethod();  
+            System.out.print("A");  
+        } 
+        catch (RuntimeException ex) /* Line 10 */
+        { 
+            System.out.print("B"); 
+        } 
+        catch (Exception ex1) 
+        { 
+            System.out.print("C"); 
+        } 
+        finally 
+        {
+            System.out.print("D"); 
+        } 
+        System.out.print("E"); 
+    } 
+    public static void errorMethod() 
+    { 
+        throw new RuntimeException(); 
+    } 
+===================================================================
+public static void throwError () 
+    {
+        System.out.print("throwit ");
+        throw new RuntimeException();
+    }
+    public static void main(String [] args) 
+    {
+        try 
+        {
+            System.out.print("hello ");
+            throwError();
+        }
+        catch (Exception re ) 
+        {
+            System.out.print("caught ");
+        }
+        finally 
+        {
+            System.out.print("finally ");
+        }
+        System.out.println("after ");
+    }
+====================================================================
+public static void method() throws Exception 
+    {
+        try /* Line 5 */
+        {
+            throw new Exception(); /* Line 7 */
+        } 
+        finally /* Line 9 */
+        {
+            System.out.print("finally "); /* Line 11 */
+        } 
+    } 
+    public static void main(String args[]) 
+    {
+        try 
+        {
+            method();  
+        } 
+        catch (Exception e) /* Line 20 */
+        {
+            System.out.print("exception "); 
+        } 
+        System.out.print("finished"); /* Line 24 */
+    } 
+====================================================================
+public static void main(String [] args) 
+    {
+        try 
+        {
+            errorMethod(); /* Line 7 */
+            System.out.print("A"); 
+        } 
+        catch (Exception ex) /* Line 10 */
+        {
+            System.out.print("B"); /* Line 12 */
+        } 
+        finally /* Line 14 */
+        {
+            System.out.print("C"); /* Line 16 */
+        }  
+        System.out.print("D"); /* Line 18 */
+    } 
+    public static void errorMethod() 
+    {
+        throw new RuntimeException(); 
+    } 
+====================================================================
+ try 
+        {
+            System.out.print("Hello world ");
+        }
+        finally 
+        {
+            System.out.println("Finally executing ");
+        }
+=======================================================================
+try {
+            int i=9/0;
+            System.out.println(i);
+            return;
+        } catch (Exception e) {
+            System.out.println("exception caught");
+            return;
+        }
+        System.out.println("task completed");
+=======================================================================
+psvm(){
+(call());
+}
+
+static String call(){
+try {
+            int i = 9;
+            System.out.println(i);
+            return "from try";
+        } catch (Exception e) {
+            System.out.println("exception caught");
+            return "from catch";
+        } finally {
+            System.out.println("finally block executing");
+        }
+}
+=======================================================================
+psvm(){
+(call());
+}
+
+static String call(){
+try {
+            int a = 9;
+            System.out.println(a);
+            return "in try";
+        } catch (Exception e) {
+            System.out.println("exception caught");
+            return "in catch";
+        } finally {
+            System.out.println("finally block executing");
+            return "in finally";
+        }
+}
+=======================================================================
+psvm(){
+(call());
+}
+
+static String call(){
+try {
+            int i = 9/0;
+            System.out.println(i);
+        } catch (Exception e) {
+            System.out.println("exception caught");
+            return "from catch";
+        } finally {
+            System.out.println("finally block executing");
+        }
+        System.out.println("end");
+        return "from end";
+    }
+}
+=======================================================================
+public static void main(String[] args) 
+    { 
+        if (true) 
+            break; 
+    } 
+=======================================================================
+try
+{
+    String s = null;
+    System.out.println(s.length());   //This statement throws NullPointerException
+}
+catch(NullPointerException ex)
+{
+    System.out.println("NullPointerException is caught here");
+  
+    rethrow ex;     //Re-throwing NullPointerException
+}
+is this possible?
+
+============================================================================
+loop1: 
+    for (int i = 0; i < 5; i++) 
+     { 
+        for (int j = 0; j < 5; j++)  
+        { 
+            if (i == 3) 
+                break loop1; 
+            System.out.println("i = " + i + " j = " + j); 
+        } 
+    } 
+========================================================================
+Exception e=new ArithmeticException("dummy");
+		System.out.println("in try");
+		throw e;
+		
+========================================================================
+try {
+		System.out.println("in try");
+		throw new ArithmeticException("my message");
+		}
+		catch(Exception e) {
+			throw e;
+		}
+========================================================================
+	try {
+		System.out.println("in try");
+		ArithmeticException ae=new ArithmeticException("my message");
+		ae.initCause(new NullPointerException("error"));
+		throw ae;
+		}
+		catch(Exception e) {
+			System.out.println(e.getCause());
+			//throw e;
+			//e.printStackTrace();
+		}
+==========================================================================
+	try {
+		System.out.println("in try");
+		ArithmeticException ae=new ArithmeticException("my message");
+		ae.initCause(new NullPointerException("error"));
+		throw ae;
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+============================================================================
+try {
+		System.out.println(new ExcepDemo1().m1());
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	String m1()
+	{
+		return m2();
+	}
+	String m2()
+	{
+		return m3();
+	}
+	String m3()
+	{
+		return 9/0+"hello";
+	}
+=========================================================================
+try {
+			System.out.println("in main ");
+			System.out.println(new ExcepDemo1().m1());
+			System.out.println("in try end");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	String m1() {
+		return m2();
+	}
+
+	String m2() {
+		return m3();
+	}
+
+	String m3() {
+		System.exit(1);
+		return 9 / 0 + "hello";
+
+	}
+================================================================================
+
+1. Can you override a private or static method in Java?
+2. What do the expression 1.0 / 0.0 will return? 
+3. char[] chars = new char[] {'\u0097'} o/p if u iterate this code and print?
+	(will it print if u iterate array or should it be converted)
+4. Difference between System.exit() and System.halt() method?
+5. (Integer) 1 == (Integer) 1 but (Integer) 222 != (Integer) 222, why second prints?
+6. System.out.println('j' + 'a' + 'v' + 'a'); 
+7. int $_ = 5; o/p
+8. // \u000d System.out.println("comment executed"); what will be o/p?
+9. unreachable catch block error?
+
+
+usefull links:
+https://stackoverflow.com/questions/19672427/string-s-new-stringxyz-how-many-objects-has-been-made-after-this-line-of
+https://www.journaldev.com/16659/garbage-collection-in-java
+
